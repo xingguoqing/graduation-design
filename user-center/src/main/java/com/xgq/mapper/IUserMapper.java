@@ -1,4 +1,4 @@
-package mapper;
+package com.xgq.mapper;
 
 
 import org.apache.ibatis.annotations.Mapper;

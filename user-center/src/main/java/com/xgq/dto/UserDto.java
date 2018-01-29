@@ -1,4 +1,4 @@
-package dto;
+package com.xgq.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,8 @@
-package po;
+package com.xgq.po;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.net.ntp.TimeStamp;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class UserPo {
 
-    private String userId;
+    private Integer userId;
 
     private String userCode;
 
@@ -23,12 +24,12 @@ public class UserPo {
 
     private String personalProfile;
 
-    private String status;
+    private boolean status;
 
-    private String lastLogin;
+    private TimeStamp lastLogin;
 
-    private String createTime;
+    private TimeStamp createTime;
 
-    private String ts;
+    private TimeStamp ts;
 
 }

@@ -19,15 +19,15 @@ public enum ResponseCodeEnum {
         this.msg = msg;
     }
 
-    public static ResponseCodeEnum getResponseCodeEnumByCode(String code) {
-        ResponseCodeEnum[] responseCodeEnums = ResponseCodeEnum.values();
-        for (ResponseCodeEnum responseCodeEnum : responseCodeEnums) {
-            if (responseCodeEnum.getCode().equals(code)) {
-                return responseCodeEnum;
-            }
-        }
-        throw new BusinessRuntimeException("根据状态码{" + code + "}未查询到对应响应枚举值");
-    }
+//    public static ResponseCodeEnum getResponseCodeEnumByCode(String code) {
+//        ResponseCodeEnum[] responseCodeEnums = ResponseCodeEnum.values();
+//        for (ResponseCodeEnum responseCodeEnum : responseCodeEnums) {
+//            if (responseCodeEnum.getCode().equals(code)) {
+//                return responseCodeEnum;
+//            }
+//        }
+//        throw new BusinessRuntimeException("根据状态码{" + code + "}未查询到对应响应枚举值");
+//    }
 
     public String getCode() {
         return code;
