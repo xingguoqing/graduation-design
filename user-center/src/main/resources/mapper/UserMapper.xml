@@ -3,591 +3,77 @@
 <mapper namespace="com.xgq.mapper.IUserMapper">
 
 
-    <resultMap id="BaseResultMap" type="com.yonyou.einvoice.ops.entity.BdCorp">
-        <!-- @mbggenerated -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="contact" jdbcType="VARCHAR" property="contact"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="nsrsbh" jdbcType="VARCHAR" property="nsrsbh"/>
-        <result column="address" jdbcType="VARCHAR" property="address"/>
-        <result column="city" jdbcType="VARCHAR" property="city"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <result column="type" jdbcType="TINYINT" property="type"/>
-        <result column="create_date" jdbcType="DATE" property="createDate"/>
-        <result column="ca_provider" jdbcType="VARCHAR" property="caProvider"/>
-        <result column="ca_approve_date" jdbcType="DATE" property="caApproveDate"/>
-        <result column="ca_approve_status" jdbcType="TINYINT" property="caApproveStatus"/>
-        <result column="ca_reason" jdbcType="VARCHAR" property="caReason"/>
-        <result column="approve_status" jdbcType="TINYINT" property="approveStatus"/>
-        <result column="approve_date" jdbcType="DATE" property="approveDate"/>
-        <result column="reason" jdbcType="VARCHAR" property="reason"/>
-        <result column="src_type" jdbcType="TINYINT" property="srcType"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
-        <result column="status_mod_date" jdbcType="DATE" property="statusModDate"/>
-        <result column="invoice_ctrl_type" jdbcType="INTEGER" property="invoiceCtrlType"/>
-        <result column="piaoeda_corpid" jdbcType="VARCHAR" property="piaoedaCorpid"/>
-        <result column="enterprise_type" jdbcType="VARCHAR" property="enterpriseType"/>
-        <result column="three_in_one" jdbcType="VARCHAR" property="threeInOne"/>
-        <result column="license_no" jdbcType="VARCHAR" property="licenseNo"/>
-        <result column="org_code" jdbcType="VARCHAR" property="orgCode"/>
-        <result column="agent_card_type" jdbcType="INTEGER" property="agentCardType"/>
-        <result column="agent_card_no" jdbcType="VARCHAR" property="agentCardNo"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="ts" jdbcType="TIMESTAMP" property="ts"/>
+    <resultMap id="baseRequestMap" type="com.xgq.po.UserPo">
+        <id column="user_id" property="userId"/>
+        <result column="user_code" property="userCode"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_mail" property="userMail"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_name" property="userName"/>
+        <result column="personal_profile" property="personalProfile"/>
+        <result column="status" property="status"/>
+        <result column="last_login" property="lastLogin"/>
     </resultMap>
-    <!-- 用于查看企业详情 -->
-    <resultMap id="CorpResponseMap" type="com.yonyou.einvoice.ops.vo.BdCorpResponse">
-        <!-- 企业基本数据 -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="contact" jdbcType="VARCHAR" property="contact"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="nsrsbh" jdbcType="VARCHAR" property="nsrsbh"/>
-        <result column="address" jdbcType="VARCHAR" property="address"/>
-        <result column="city" jdbcType="VARCHAR" property="city"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <result column="type" jdbcType="TINYINT" property="type"/>
-        <result column="create_date" jdbcType="DATE" property="createDate"/>
-        <result column="ca_provider" jdbcType="VARCHAR" property="caProvider"/>
-        <result column="ca_approve_date" jdbcType="DATE" property="caApproveDate"/>
-        <result column="ca_approve_status" jdbcType="TINYINT" property="caApproveStatus"/>
-        <result column="ca_reason" jdbcType="VARCHAR" property="caReason"/>
-        <result column="approve_status" jdbcType="TINYINT" property="approveStatus"/>
-        <result column="approve_date" jdbcType="DATE" property="approveDate"/>
-        <result column="reason" jdbcType="VARCHAR" property="reason"/>
-        <result column="src_type" jdbcType="TINYINT" property="srcType"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
-        <result column="status_mod_date" jdbcType="DATE" property="statusModDate"/>
-        <result column="invoice_ctrl_type" jdbcType="INTEGER" property="invoiceCtrlType"/>
-        <result column="piaoeda_corpid" jdbcType="VARCHAR" property="piaoedaCorpid"/>
-        <result column="enterprise_type" jdbcType="VARCHAR" property="enterpriseType"/>
-        <result column="three_in_one" jdbcType="VARCHAR" property="threeInOne"/>
-        <result column="license_no" jdbcType="VARCHAR" property="licenseNo"/>
-        <result column="org_code" jdbcType="VARCHAR" property="orgCode"/>
-        <result column="agent_card_type" jdbcType="INTEGER" property="agentCardType"/>
-        <result column="agent_card_no" jdbcType="VARCHAR" property="agentCardNo"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="ts" jdbcType="TIMESTAMP" property="ts"/>
-        <!-- 公司额外表数据 -->
-        <result column="region" jdbcType="VARCHAR" property="region"/>
-        <result column="sale_person" jdbcType="VARCHAR" property="salePerson"/>
-        <result column="partner" jdbcType="INTEGER" property="partner"/>
-        <result column="subbranch" jdbcType="VARCHAR" property="subbranch"/>
-        <result column="sb_sale_person" jdbcType="VARCHAR" property="sbSalePerson"/>
-        <result column="partner_sale_person" jdbcType="VARCHAR"
-                property="partnerSalePerson"/>
-        <!-- 关联查询电票资料 -->
-        <association property="corpApplyAttachs"
-                     resultMap="com.yonyou.einvoice.ops.com.xgq.mapper.CorpApplyAttachMapper.ResultMap"/>
-        <!-- 关联查询CA资料 -->
-        <association property="taxApplyAttachs"
-                     resultMap="com.yonyou.einvoice.ops.com.xgq.mapper.TaxApplyAttachMapper.ResultMap"/>
-    </resultMap>
-    <sql id="Base_Column_List">
-        <!-- @mbggenerated -->
-        id, contact, name, nsrsbh, address, city, email, mobile, type,
-        create_date, ca_provider,
-        ca_approve_date, ca_approve_status,
-        ca_reason, approve_status, approve_date, reason,
-        src_type, status,
-        status_mod_date,
-        invoice_ctrl_type,piaoeda_corpid,enterprise_type,three_in_one,license_no,org_code,agent_card_type,agent_card_no,
-        create_time, ts ,appid,orderid
+
+    <sql id="baseColumns">
+        user_id,user_code,user_password,user_mail,user_phone,user_name,personal_profile,status,last_login
     </sql>
-    <!-- 根据公司id查询公司所有信息(公司用户) -->
-    <select id="getById" parameterType="Integer" resultMap="CorpResponseMap">
-		select
-		a.id, a.contact, a.name, a.nsrsbh, a.address, a.city, a.email,
-		a.mobile,
-		a.type, a.create_date, a.ca_provider,
-		a.ca_approve_date,
-		a.ca_approve_status, a.ca_reason, a.approve_status, a.approve_date,
-		a.reason,
-		a.src_type, a.status, a.status_mod_date, a.invoice_ctrl_type,
-		a.piaoeda_corpid,a.enterprise_type,a.three_in_one,a.license_no,a.org_code,a.agent_card_type,a.agent_card_no,
-		a.create_time, a.ts,
-		b.corpid, b.region, b.sale_person, b.partner,
-		b.subbranch, b.sb_sale_person, b.partner_sale_person,
-		c.id c_id,
-		c.corpid c_corpid,
-		c.type c_type,c.name c_name, c.file_path
-		c_file_path, c.create_time c_create_time, c.ts c_ts,
-		d.id d_id,
-		d.corpid
-		d_corpid,
-		d.nsrsbh d_nsrsbh, d.nsrsbh_mc
-		d_nsrsbh_mc,d.authorization_letter
-		d_authorization_letter, d.stamp
-		d_stamp, d.approve_status
-		d_approve_status,
-		d.approve_date
-		d_approve_date, d.reason d_reason,
-		d.create_time d_create_time, d.ts
-		d_ts
-		from bd_corp a
-		LEFT JOIN
-		bd_corp_ext b on a.id = b.corpid
-		LEFT JOIN
-		corp_apply_attach
-		c on a.id =
-		c.corpid
-		left join tax_apply_attach d on
-		a.id = d.corpid
-		where a.id =
-		#{id}
-	</select>
-    <!-- 管理员或者ca厂商用户根据公司id查询公司所有信息 -->
-    <select id="adminGetById" parameterType="Integer" resultMap="CorpResponseMap">
-		select
-		a.id, a.contact, a.name, a.nsrsbh, a.address, a.city, a.email,
-		a.mobile,
-		a.type, a.create_date, a.ca_provider,
-		a.ca_approve_date,
-		a.ca_approve_status, a.ca_reason, a.approve_status, a.approve_date,
-		a.reason,
-		a.src_type, a.status, a.status_mod_date, a.invoice_ctrl_type,
-		a.piaoeda_corpid,a.enterprise_type,a.three_in_one,a.license_no,a.org_code,a.agent_card_type,a.agent_card_no,
-		a.create_time, a.ts,
-		b.corpid, b.region, b.sale_person, b.partner,
-		b.subbranch, b.sb_sale_person, b.partner_sale_person,
-		c.id c_id,
-		c.corpid c_corpid,
-		c.type c_type,c.name c_name, c.file_path
-		c_file_path, c.create_time c_create_time, c.ts c_ts,
-		d.id d_id,
-		d.corpid
-		d_corpid,
-		d.nsrsbh d_nsrsbh, d.nsrsbh_mc
-		d_nsrsbh_mc,d.authorization_letter
-		d_authorization_letter, d.stamp
-		d_stamp, d.approve_status
-		d_approve_status,
-		d.approve_date
-		d_approve_date, d.reason d_reason,
-		d.create_time d_create_time, d.ts
-		d_ts
-		from bd_corp a
-		LEFT JOIN
-		bd_corp_ext b on a.id = b.corpid
-		LEFT JOIN
-		corp_apply_attach
-		c on a.id =
-		c.corpid
-		left join (select * from
-		tax_apply_attach taa where taa.approve_status !=4 or
-		taa.approve_status is null) d on
-		a.id = d.corpid
-		where a.id =
-		#{id}
-	</select>
-    <!-- 根据手机号查询 -->
-    <select id="getByMobile" parameterType="String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from bd_corp
-        where mobile = #{mobile}
-    </select>
-    <!-- 根据纳税人编号查询 -->
-    <select id="getByNsrbh" parameterType="String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from bd_corp
-        where nsrsbh = #{nsrsbh}
-    </select>
-    <!-- 根据公司名称 -->
-    <select id="getByName" parameterType="String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from bd_corp
-        where name = #{name}
-    </select>
-    <!-- 根据伙伴查询公司数量 -->
-    <select id="selectCountByPartner" parameterType="com.yonyou.einvoice.ops.vo.PartnerQueryParam"
-            resultType="Integer">
-        select
-        count(1)
-        from bd_corp c inner join bd_corp_ext e
-        on c.id =
-        e.corpid AND c.status != 4
-        <where>
-            <if test="userId!=null">
-                and e.partner = #{userId}
-            </if>
-            <if test="corpName!=null and corpName!='' ">
-                and c.name like "%"#{corpName}"%"
-            </if>
-            <if test="createBeginDate != null and createBeginDate!='' ">
-                AND c.create_date &gt;=
-                #{createBeginDate}
-            </if>
-            <if test="createEndDate != null and createEndDate!='' ">
-                AND c.create_date &lt;=
-                #{createEndDate}
-            </if>
-        </where>
-    </select>
-    <!-- 根据伙伴查询公司集合 -->
-    <select id="selectPageByPartner" parameterType="com.yonyou.einvoice.ops.vo.PartnerQueryParam"
-            resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from bd_corp c inner join bd_corp_ext e
-        on c.id = e.corpid AND c.status != 4
-        <where>
-            <if test="userId!=null">
-                and e.partner = #{userId}
-            </if>
-            <if test="corpName!=null and corpName!='' ">
-                and c.name like "%"#{corpName}"%"
-            </if>
-            <if test="createBeginDate != null and createBeginDate!='' ">
-                AND c.create_date &gt;=
-                #{createBeginDate}
-            </if>
-            <if test="createEndDate != null and createEndDate!='' ">
-                AND c.create_date &lt;=
-                #{createEndDate}
-            </if>
-        </where>
-        ORDER BY c.create_time DESC
-        limit #{beginRecord} ,
-        #{pageSize}
-    </select>
 
-    <resultMap id="adminSelectBdCorpList" type="com.yonyou.einvoice.ops.vo.BdCorpVO">
-        <association property="maintained" javaType="int">
-            <result column="maintained" property="maintained"/>
-        </association>
-        <association property="bdCorp"
-                     javaType="com.yonyou.einvoice.ops.entity.BdCorp">
-            <id column="id" property="id"/>
-            <result column="name" property="name"/>
-            <result column="src_type" property="srcType"/>
-            <result column="contact" property="contact"/>
-            <result column="create_date" property="createDate"/>
-            <result column="status_mod_date" property="statusModDate"/>
-            <result column="approve_date" property="approveDate"/>
-            <result column="approve_status" property="approveStatus"/>
-            <result column="ca_approve_status" property="caApproveStatus"/>
-            <result column="status" property="status"/>
-        </association>
-    </resultMap>
+    <sql id="allCondition">
+        <if test=" user.userId !=null ">
+            AND user_id = #{user.userId}
+        </if>
+        <if test=" user.userCode !=null and user.userCode!='' ">
+            AND user_code = #{user.userCode}
+        </if>
+        <if test=" user.userPassword !=null and user.userPassword!='' ">
+            AND user_password = #{user.userPassword}
+        </if>
+        <if test=" user.userMail !=null and user.userMail!='' ">
+            AND user_mail = #{user.userMail}
+        </if>
+        <if test=" user.userPhone !=null and user.userPhone!='' ">
+            AND user_phone = #{user.userPhone}
+        </if>
+        <if test=" user.userName !=null and user.userName!='' ">
+            AND user_name = #{user.userName}
+        </if>
+        <if test=" user.personalProfile !=null and user.personalProfile!='' ">
+            AND personal_profile = #{user.personalProfile}
+        </if>
+        <if test=" user.status !=null and user.status!='' ">
+            AND status = #{user.status}
+        </if>
+        <if test=" user.lastLogin !=null and user.lastLogin!='' ">
+            AND last_login = #{user.lastLogin}
+        </if>
+    </sql>
 
-    <select id="adminSelectBdCorpList" parameterType="com.yonyou.einvoice.ops.entity.BdCorp"
-            resultMap="adminSelectBdCorpList">
+
+    <select id="selectPageList" resultMap="baseRequestMap">
         SELECT
-        bd_corp.id,
-        bd_corp.name,
-        bd_corp.src_type,
-        bd_corp.contact,
-        bd_corp.create_date,
-        bd_corp.approve_date,
-        bd_corp.approve_status,
-        bd_corp.ca_approve_status,
-        bd_corp.status ,
-        (
-        (EXISTS(select corpid FROM
-        collection_ctrl where corpid = bd_corp.id ))
-        OR
-        ((EXISTS(select corpid
-        FROM invoice_ctrl where corpid = bd_corp.id )))
-        ) maintained
-        from
-        bd_corp
-        <where>
-            bd_corp.status != 4
-            <if test="name!=null and name!='' ">
-                and bd_corp.name = #{name}
-            </if>
-            <if test="contact!=null and contact!='' ">
-                and bd_corp.contact = #{contact}
-            </if>
-            <if test="createBeginDate != null and createBeginDate!='' ">
-                AND bd_corp.create_date &gt;=
-                #{createBeginDate}
-            </if>
-            <if test="createEndDate != null and createEndDate!='' ">
-                AND bd_corp.create_date &lt;=
-                #{createEndDate}
-            </if>
-            <if test="approveBeginDate != null and approveBeginDate!='' ">
-                AND bd_corp.approve_date &gt;=
-                #{approveBeginDate}
-            </if>
-            <if test="approveEndDate != null and approveEndDate!='' ">
-                AND bd_corp.approve_date &lt;=
-                #{approveEndDate}
-            </if>
-        </where>
+        <include refid="baseColumns"/>
+        FROM user
+        where 1=1
+        <include refid="allCondition"/>
+        ORDER BY create_time DESC
+        limit #{start},#{end}
     </select>
-    <!-- 根据公司id查询公司所有信息 -->
-    <select id="getCaResponseById" parameterType="Integer"
-            resultMap="CaResponseMap">
-		select
-		a.id, a.contact, a.name, a.nsrsbh, a.address, a.city,
-		a.email,
-		a.mobile,
-		a.type, a.create_date, a.ca_provider,
-		a.ca_approve_date,
-		a.ca_approve_status, a.ca_reason, a.approve_status,
-		a.approve_date,
-		a.reason,
-		a.src_type, a.status, a.status_mod_date,
-		a.invoice_ctrl_type,
-		a.piaoeda_corpid,a.enterprise_type,a.three_in_one,a.license_no,a.org_code,a.agent_card_type,a.agent_card_no,
-		a.create_time, a.ts,
-		c.id c_id,
-		c.corpid c_corpid,
-		c.type c_type,c.name
-		c_name, c.file_path
-		c_file_path, c.create_time
-		c_create_time, c.ts c_ts,
-		d.id d_id,
-		d.corpid
-		d_corpid,
-		d.nsrsbh
-		d_nsrsbh,d.nsrsbh_mc d_nsrsbh_mc,
-		d.authorization_letter
-		d_authorization_letter, d.stamp d_stamp,
-		d.approve_status
-		d_approve_status,
-		d.approve_date d_approve_date,
-		d.reason d_reason,
-		d.create_time d_create_time, d.ts d_ts
-		from bd_corp a
-		LEFT JOIN
-		corp_apply_attach
-		c on a.id =
-		c.corpid
-		left join
-		tax_apply_attach d on
-		a.id = d.corpid
-		where a.id =
-		#{id}
-	</select>
 
-    <!-- 用于查看企业详情 -->
-    <resultMap id="CaResponseMap"
-               type="com.yonyou.einvoice.ops.vo.SelectCorpForCaResponse">
-        <!-- 企业基本数据 -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="contact" jdbcType="VARCHAR" property="contact"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="nsrsbh" jdbcType="VARCHAR" property="nsrsbh"/>
-        <result column="address" jdbcType="VARCHAR" property="address"/>
-        <result column="city" jdbcType="VARCHAR" property="city"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <result column="type" jdbcType="TINYINT" property="type"/>
-        <result column="create_date" jdbcType="DATE" property="createDate"/>
-        <result column="ca_provider" jdbcType="VARCHAR" property="caProvider"/>
-        <result column="ca_approve_date" jdbcType="DATE" property="caApproveDate"/>
-        <result column="ca_approve_status" jdbcType="TINYINT" property="caApproveStatus"/>
-        <result column="ca_reason" jdbcType="VARCHAR" property="caReason"/>
-        <result column="approve_status" jdbcType="TINYINT" property="approveStatus"/>
-        <result column="approve_date" jdbcType="DATE" property="approveDate"/>
-        <result column="reason" jdbcType="VARCHAR" property="reason"/>
-        <result column="src_type" jdbcType="TINYINT" property="srcType"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
-        <result column="status_mod_date" jdbcType="DATE" property="statusModDate"/>
-        <result column="invoice_ctrl_type" jdbcType="INTEGER" property="invoiceCtrlType"/>
-        <result column="piaoeda_corpid" jdbcType="VARCHAR" property="piaoedaCorpid"/>
-        <result column="enterprise_type" jdbcType="VARCHAR" property="enterpriseType"/>
-        <result column="three_in_one" jdbcType="VARCHAR" property="threeInOne"/>
-        <result column="license_no" jdbcType="VARCHAR" property="licenseNo"/>
-        <result column="org_code" jdbcType="VARCHAR" property="orgCode"/>
-        <result column="agent_card_type" jdbcType="INTEGER" property="agentCardType"/>
-        <result column="agent_card_no" jdbcType="VARCHAR" property="agentCardNo"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="ts" jdbcType="TIMESTAMP" property="ts"/>
-
-        <!-- 关联查询电票资料 -->
-        <association property="corpApplyAttachs"
-                     resultMap="com.yonyou.einvoice.ops.com.xgq.mapper.CorpApplyAttachMapper.ResultMap"/>
-        <!-- 关联查询CA资料 -->
-        <association property="taxApplyAttachs"
-                     resultMap="com.yonyou.einvoice.ops.com.xgq.mapper.TaxApplyAttachMapper.ResultMap"/>
-    </resultMap>
-    <update id="updateInvoiceCtrlTypeById" parameterType="com.yonyou.einvoice.ops.entity.BdCorp">
-		update
-		bd_corp set invoice_ctrl_type=#{invoiceCtrlType} where id=#{id}
-	</update>
-    <select id="selectInvoiceList" parameterType="com.yonyou.einvoice.ops.entity.BdCorp"
-            resultMap="BaseResultMap">
+    <select id="selectList" resultMap="baseRequestMap">
         SELECT
-        bd_corp.id,
-        bd_corp.name,
-        bd_corp.src_type,
-        bd_corp.create_date,
-        bd_corp.approve_status,
-        bd_corp.ca_approve_status,
-        bd_corp.status,
-        bd_corp.type
-        from
-        bd_corp
-        <where>
-            bd_corp.type in (1,3,5,7)
-            and bd_corp.approve_status=2
-            and
-            bd_corp.ca_approve_status=2
-            <if test="name!=null and name!='' ">
-                and bd_corp.name = #{name}
-            </if>
-            <if test="createBeginDate != null and createBeginDate!='' ">
-                AND bd_corp.create_date &gt;=
-                #{createBeginDate}
-            </if>
-            <if test="createEndDate != null and createEndDate!='' ">
-                AND bd_corp.create_date &lt;=
-                #{createEndDate}
-            </if>
-        </where>
-    </select>
-    <select id="selectCollectionList" parameterType="com.yonyou.einvoice.ops.entity.BdCorp"
-            resultMap="BaseResultMap">
-        SELECT
-        bd_corp.id,
-        bd_corp.name,
-        bd_corp.src_type,
-        bd_corp.create_date,
-        bd_corp.approve_status,
-        bd_corp.ca_approve_status,
-        bd_corp.status,
-        bd_corp.type
-        from
-        bd_corp
-        <where>
-            bd_corp.type !=1
-            and bd_corp.approve_status=2
-            <if test="name!=null and name!='' ">
-                and bd_corp.name = #{name}
-            </if>
-            <if test="createBeginDate != null and createBeginDate!='' ">
-                AND bd_corp.create_date &gt;=
-                #{createBeginDate}
-            </if>
-            <if test="createEndDate != null and createEndDate!='' ">
-                AND bd_corp.create_date &lt;=
-                #{createEndDate}
-            </if>
-        </where>
-    </select>
-    <select id="CASelectCorpList" parameterType="com.yonyou.einvoice.ops.entity.BdCorp"
-            resultMap="BaseResultMap">
-        SELECT
-        bd_corp.id,
-        bd_corp.name,
-        bd_corp.src_type,
-        bd_corp.contact,
-        bd_corp.create_date,
-        bd_corp.approve_date,
-        bd_corp.ca_approve_date,
-        bd_corp.approve_status,
-        bd_corp.ca_approve_status,
-        bd_corp.status
-        from
-        bd_corp
-        <where>
-            bd_corp.ca_provider= #{caProvider}
-            AND bd_corp.ca_approve_status != 4
-            AND bd_corp.approve_status=2
-            AND bd_corp.status != 4
-            <if test="name!=null and name!='' ">
-                and bd_corp.name = #{name}
-            </if>
-            <if test="contact!=null and contact!='' ">
-                and bd_corp.contact = #{contact}
-            </if>
-            <if test="createBeginDate != null and createBeginDate!='' ">
-                AND bd_corp.create_date &gt;=
-                #{createBeginDate}
-            </if>
-            <if test="createEndDate != null and createEndDate!='' ">
-                AND bd_corp.create_date &lt;=
-                #{createEndDate}
-            </if>
-            <if test="caApproveBeginDate != null and caApproveBeginDate!='' ">
-                AND bd_corp.ca_approve_date &gt;=
-                #{caApproveBeginDate}
-            </if>
-            <if test="caApproveEndDate != null and caApproveEndDate!='' ">
-                AND bd_corp.ca_approve_date &lt;=
-                #{caApproveEndDate}
-            </if>
-        </where>
-    </select>
-    <select id="queryCorpByNsrsbh" parameterType="String" resultMap="BaseResultMap">
-		select * from bd_corp inner join tax_apply_attach on
-		bd_corp.id=tax_apply_attach.corpid where
-		tax_apply_attach.nsrsbh=#{nsrsbh}
-	</select>
-
-    <select id="getByOrderId" resultType="com.yonyou.einvoice.ops.entity.BdCorp">
-		SELECT * FROM  bd_corp
-		WHERE bd_corp.orderid = #{orderId}
-	</select>
-
-    <select id="updateInfoByOrderId" parameterType="com.yonyou.einvoice.ops.entity.BdCorp">
-        UPDATE bd_corp
-        <set>
-            <if test="name != null and name != ''">
-                name = #{name},
-            </if>
-            <if test=" enterpriseType!= null and enterpriseType != ''">
-                enterprise_type = #{enterpriseType},
-            </if>
-            <if test=" threeInOne!= null and threeInOne != ''">
-                three_in_one = #{threeInOne},
-            </if>
-            <if test=" licenseNo!= null and licenseNo != ''">
-                license_no = #{licenseNo},
-            </if>
-            <if test=" nsrsbh!= null and nsrsbh != ''">
-                nsrsbh = #{nsrsbh},
-            </if>
-            <if test=" city!= null and city != ''">
-                city = #{city},
-            </if>
-            <if test=" orgCode!= null and orgCode != ''">
-                org_code = #{orgCode},
-            </if>
-            <if test=" address!= null and address != ''">
-                address = #{address},
-            </if>
-            <if test=" address!= null and address != ''">
-                address = #{address},
-            </if>
-            <if test=" contact!= null and contact != ''">
-                contact = #{contact},
-            </if>
-            <if test=" email!= null and email != ''">
-                email = #{email},
-            </if>
-            <if test=" mobile!= null and mobile != ''">
-                mobile = #{mobile},
-            </if>
-            <if test=" agentCardType > 0">
-                agent_card_type = #{agentCardType},
-            </if>
-            <if test=" agentCardNo!= null and agentCardNo != ''">
-                agent_card_no = #{agentCardNo},
-            </if>
-            <if test="status > 0">
-                status = #{status},
-            </if>
-        </set>
-        where orderid = #{orderid}
+        <include refid="baseColumns"/>
+        FROM user
+        where 1=1
+        <include refid="allCondition"/>
     </select>
 
-    <insert id="addApiOrder" parameterType="com.yonyou.einvoice.ops.entity.BdCorp">
-      insert into bd_corp (name, nsrsbh, address, contact, city, email,
-          mobile, type, create_date,src_type, status, enterprise_type, three_in_one, license_no,
-          org_code, agent_card_type, agent_card_no, appid, orderid)
-          values (
-          #{name},#{nsrsbh},#{address},#{contact},#{city},#{email},#{mobile},#{type},
-          #{createDate},#{srcType},#{status},#{enterpriseType},#{threeInOne},#{licenseNo},
-          #{orgCode},#{agentCardType},#{agentCardNo},#{appid},#{orderid}
-          );
-    </insert>
+    <select id="selectCount" resultMap="int" parameterType="com.xgq.po.UserPo">
+        SELECT count(1)
+        FROM user
+        where 1=1
+        <include refid="allCondition"/>
+    </select>
+
+
 </mapper>
