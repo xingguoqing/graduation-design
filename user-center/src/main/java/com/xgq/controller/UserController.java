@@ -1,5 +1,6 @@
 package com.xgq.controller;
 
+import com.xgq.dto.UserDto;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +31,11 @@ public class UserController {
         @ApiImplicitParam(name = "pageSize", paramType = "body", dataType = "UserDto", value = "查询条件", required = true)})
     @RequestMapping(value = "/selectUsers", method = RequestMethod.POST)
     public ICommonResponse selectUsers(@RequestParam(value = "pageNum") int pageNum,
-        @RequestParam(value = "pageSize") int pageSize) {
+        @RequestParam(value = "pageSize") int pageSize, @RequestBody UserDto userDto) {
 
         try {
             PageValider.validParams(pageNum, pageSize);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
-
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         }
