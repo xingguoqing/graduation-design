@@ -1,27 +1,31 @@
 package util.exception;
 
-import response.ResponseCodeEnum;
+import responsecode.ICommonCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 业务运行时异常包装类
  */
+@Setter
+@Getter
 public class BusinessRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRuntimeException.class);
 
-    private String code;
+    private ICommonCode errorCode;
 
 
-    public BusinessRuntimeException(ResponseCodeEnum responseCodeEnum) {
-        super(responseCodeEnum.getMsg());
-        this.code = responseCodeEnum.getCode();
+    public BusinessRuntimeException(ICommonCode errorCode) {
+        super(errorCode.getMsg());
+        this.errorCode = errorCode;
     }
 
-    public String getCode() {
-        return code;
+    public static void wrapBusiException(ICommonCode errorCode) {
+        LOGGER.error(errorCode.getMsg());
+        throw new BusinessRuntimeException(errorCode);
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 }

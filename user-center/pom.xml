@@ -51,6 +51,12 @@
             <version>${mysql.connector.java}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.20</version>
+        </dependency>
+
     </dependencies>
 
 

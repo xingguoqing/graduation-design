@@ -2,7 +2,6 @@ package com.xgq.service;
 
 
 import com.xgq.po.UserPo;
-import util.page.PageUtil;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public interface IUserService {
 
 
-    List<UserPo> selectPageList(PageUtil pageUtil);
+//    List<UserPo> selectPageList(PageUtil pageUtil);
 
     int selectCount(UserPo userPo);
 
