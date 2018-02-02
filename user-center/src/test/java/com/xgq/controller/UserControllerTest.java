@@ -34,14 +34,15 @@ public class UserControllerTest {
         //       mvc = MockMvcBuilders.standaloneSetup(new TestController()).build();
         mvc = MockMvcBuilders.webAppContextSetup(context).build();//建议使用这种
     }
+
     @Test
     public void test1() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/user/selectUsers?pageNum=1&pageSize=10")
-            .contentType(MediaType.APPLICATION_JSON_UTF8)
-            .param("lat", "123.123").param("lon", "456.456")
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andDo(MockMvcResultHandlers.print()).andReturn();
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .param("lat", "123.123").param("lon", "456.456")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
 //            .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("SUCCESS")));
 
     }

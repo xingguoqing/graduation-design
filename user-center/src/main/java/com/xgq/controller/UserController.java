@@ -24,14 +24,15 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 
-    @ApiOperation(value = "条件分页查询用户") @ApiResponse(message = "条件分页查询用户结果", code = 200)
+    @ApiOperation(value = "条件分页查询用户")
+    @ApiResponse(message = "条件分页查询用户结果", code = 200)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "pageNum", paramType = "query", dataType = "int", value = "分页页数", required = true),
-        @ApiImplicitParam(name = "pageSize", paramType = "query", dataType = "int", value = "分页大小", required = true),
-        @ApiImplicitParam(name = "pageSize", paramType = "body", dataType = "UserDto", value = "查询条件", required = true)})
+            @ApiImplicitParam(name = "pageNum", paramType = "query", dataType = "int", value = "分页页数", required = true),
+            @ApiImplicitParam(name = "pageSize", paramType = "query", dataType = "int", value = "分页大小", required = true),
+            @ApiImplicitParam(name = "pageSize", paramType = "body", dataType = "UserDto", value = "查询条件", required = true)})
     @RequestMapping(value = "/selectUsers", method = RequestMethod.POST)
     public ICommonResponse selectUsers(@RequestParam(value = "pageNum") int pageNum,
-        @RequestParam(value = "pageSize") int pageSize, @RequestBody UserDto userDto) {
+                                       @RequestParam(value = "pageSize") int pageSize, @RequestBody UserDto userDto) {
 
         try {
             PageValider.validParams(pageNum, pageSize);
