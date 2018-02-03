@@ -3,6 +3,7 @@ package com.xgq.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xgq.dto.UserDto;
+import com.xgq.po.UserPo;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,6 +76,22 @@ public class UserControllerTest {
     public void getUserByUserCode() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/getUserByUserCode?userCode=1053167602")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
+    }
+
+    @Test
+    public void addUser() throws Exception {
+        UserPo userDto = new UserPo();
+        userDto.setUserName("张三");
+        userDto.setUserMail("123@sina.com");
+        userDto.setUserPhone("15611500958");
+        userDto.setUserCode("1234");
+        userDto.setUserPassword("123");
+        mvc.perform(MockMvcRequestBuilders.post("/user/addUser")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(JSONObject.toJSONString(userDto))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();

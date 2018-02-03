@@ -1,5 +1,6 @@
 package com.xgq.dto;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -20,5 +21,10 @@ public class UserDto {
     private String personalProfile;
 
     private String status;
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
+    }
 
 }

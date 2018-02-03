@@ -1,5 +1,6 @@
 package com.xgq.po;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +26,10 @@ public class UserPo {
     private String personalProfile;
 
     private String status;
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
+    }
 
 }

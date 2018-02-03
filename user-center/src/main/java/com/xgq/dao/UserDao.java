@@ -1,5 +1,6 @@
 package com.xgq.dao;
 
+import com.xgq.dto.UserDto;
 import com.xgq.mapper.IUserMapper;
 import com.xgq.po.UserPo;
 import dto.PageDto;
@@ -32,5 +33,13 @@ public class UserDao {
 
     public UserPo getUserByUserCode(String userCode) {
         return userMapper.getUserByUserCode(userCode);
+    }
+
+    public void addUser(UserPo userPo) {
+        userMapper.addUser(userPo);
+    }
+
+    public UserPo getUserByUserPhone(String userPhone) {
+        return userMapper.getUserByUserPhone(userPhone);
     }
 }

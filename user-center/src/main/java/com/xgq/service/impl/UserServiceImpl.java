@@ -6,6 +6,8 @@ import com.xgq.po.UserPo;
 import com.xgq.service.IUserService;
 import dto.PageDto;
 import dto.PageResultDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements IUserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserDao userDao;
@@ -44,7 +48,22 @@ public class UserServiceImpl implements IUserService {
         return parseToUserDto(userPo);
     }
 
+    @Override
+    public void addUser(UserPo userPo) {
+        userDao.addUser(userPo);
+    }
+
+    @Override
+    public UserDto getUserByUserPhone(String userPhone) {
+        UserPo userPo = userDao.getUserByUserPhone(userPhone);
+        return parseToUserDto(userPo);
+    }
+
     private UserPo parseToUserPo(UserDto userDto) {
+        if(userDto ==null){
+            LOGGER.error("UserDto转UserPo失败，输入类UserDto为null");
+            return null;
+        }
         UserPo userPo = new UserPo();
         userPo.setUserPhone(userDto.getUserPhone());
         userPo.setPersonalProfile(userDto.getPersonalProfile());
@@ -56,6 +75,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     private UserDto parseToUserDto(UserPo userPo) {
+        if(userPo ==null){
+            LOGGER.error("UserPo转UserDto失败，输入类UserPo为null");
+            return null;
+        }
         UserDto userDto = new UserDto();
         userDto.setPersonalProfile(userPo.getPersonalProfile());
         userDto.setStatus(userPo.getStatus());

@@ -25,4 +25,8 @@ public interface IUserMapper {
     void updateStatusByUserCode(@Param("userCodes") List<String> userCodes, @Param("stauts") String stauts);
 
     UserPo getUserByUserCode(@Param("userCode") String userCode);
+
+    void addUser(@Param("user") UserPo userPo);
+
+    UserPo getUserByUserPhone(@Param("userPhone") String userPhone);
 }

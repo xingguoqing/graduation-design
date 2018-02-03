@@ -24,7 +24,7 @@ public interface IUserService {
 
     /**
      * 更改用户状态
-     * @param userCode 用户编码
+     * @param userCodes 用户编码
      * @param stauts 更改后的状态
      */
     void changeUserStatus(List<String> userCodes, String stauts);
@@ -36,4 +36,17 @@ public interface IUserService {
      * @return 查询结果
      */
     UserDto getUserByUserCode(String userCode);
+
+    /**
+     * 添加用户
+     * @param userDto
+     */
+    void addUser(UserPo userDto);
+
+    /**
+     * 根据用户手机号查询
+     * @param userPhone 手机号
+     * @return
+     */
+    UserDto getUserByUserPhone(String userPhone);
 }

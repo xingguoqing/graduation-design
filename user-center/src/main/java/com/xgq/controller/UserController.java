@@ -1,9 +1,13 @@
 package com.xgq.controller;
 
 import com.xgq.dto.UserDto;
+import com.xgq.errorcode.UserErrorCode;
+import com.xgq.po.UserPo;
 import com.xgq.service.IUserService;
+import com.xgq.util.UserUtil;
 import dto.PageDto;
 import dto.PageResultDto;
+import enums.StatusEnum;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +43,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", paramType = "query", dataType = "int", value = "分页页数", required = true),
             @ApiImplicitParam(name = "pageSize", paramType = "query", dataType = "int", value = "分页大小", required = true),
-            @ApiImplicitParam(name = "pageSize", paramType = "body", dataType = "UserDto", value = "查询条件", required = true)})
+            @ApiImplicitParam(name = "userDto", paramType = "body", dataType = "UserDto", value = "查询条件", required = true)})
     @RequestMapping(value = "/selectUsers", method = RequestMethod.POST)
     public ICommonResponse selectUsers(@RequestParam(value = "pageNum") int pageNum,
                                        @RequestParam(value = "pageSize") int pageSize, @RequestBody UserDto userDto) {
@@ -52,6 +56,7 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.error(e.getMessage());
             return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
         }
@@ -73,6 +78,7 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.error(e.getMessage());
             return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
         }
@@ -89,10 +95,39 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.error(e.getMessage());
             return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
         }
     }
 
+
+    @ApiOperation(value = "添加用户")
+    @ApiImplicitParam(name = "userPo", paramType = "body", dataType = "UserPo", value = "用户信息", required = true)
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public ICommonResponse addUser(@RequestBody UserPo userPo) {
+
+        try {
+            UserUtil.vailUserParams(userPo);
+            UserDto userDto = userService.getUserByUserCode(userPo.getUserCode());
+            if (userDto != null) {
+                return new CommonResponse(UserErrorCode.CODE_TAKE_UP);
+            }
+            userDto = userService.getUserByUserPhone(userPo.getUserPhone());
+            if (userDto != null) {
+                return new CommonResponse(UserErrorCode.PHONE_TAKE_UP);
+            }
+            //默认启用状态
+            userPo.setStatus(StatusEnum.ABLE.getCode());
+            userService.addUser(userPo);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
+        } catch (BusinessRuntimeException e) {
+            return new CommonResponse(e.getErrorCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+        }
+    }
 
 }

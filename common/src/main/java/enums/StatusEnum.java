@@ -1,13 +1,14 @@
 package enums;
 
 import lombok.Getter;
+import responsecode.ICommonCode;
 
 /**
  * @author xingguoqing
  * @date 2018/2/3 下午9:22
  */
 @Getter
-public enum StatusEnum {
+public enum StatusEnum implements ICommonCode{
 
     ABLE("Y","启动"),ENABLE("N","禁用");
 
