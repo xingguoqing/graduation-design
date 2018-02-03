@@ -2,6 +2,7 @@ package com.xgq.dao;
 
 import com.xgq.mapper.IUserMapper;
 import com.xgq.po.UserPo;
+import dto.PageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +18,8 @@ public class UserDao {
     @Autowired
     IUserMapper userMapper;
 
-    public List<UserPo> selectPageList(UserPo userPo,int start,int end){
-        return userMapper.selectPageList(userPo,start,end);
+    public List<UserPo> selectPageList(UserPo userPo, PageDto pageDto){
+        return userMapper.selectPageList(userPo,pageDto);
     }
 
     public int selectCount(UserPo userPo){

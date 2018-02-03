@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xgq.mapper.IUserMapper">
 
@@ -12,7 +12,6 @@
         <result column="user_name" property="userName"/>
         <result column="personal_profile" property="personalProfile"/>
         <result column="status" property="status"/>
-        <result column="last_login" property="lastLogin"/>
     </resultMap>
 
     <sql id="baseColumns">
@@ -44,8 +43,11 @@
         <if test=" user.status !=null and user.status!='' ">
             AND status = #{user.status}
         </if>
-        <if test=" user.lastLogin !=null and user.lastLogin!='' ">
-            AND last_login = #{user.lastLogin}
+    </sql>
+
+    <sql id="page">
+        <if test="page !=null">
+            limit #{page.startNum},#{page.pageSize}
         </if>
     </sql>
 
@@ -57,18 +59,10 @@
         where 1=1
         <include refid="allCondition"/>
         ORDER BY create_time DESC
-        limit #{start},#{end}
+        <include refid="page"/>
     </select>
 
-    <select id="selectList" resultMap="baseRequestMap">
-        SELECT
-        <include refid="baseColumns"/>
-        FROM user
-        where 1=1
-        <include refid="allCondition"/>
-    </select>
-
-    <select id="selectCount" resultMap="int" parameterType="com.xgq.po.UserPo">
+    <select id="selectCount" resultType="int" parameterType="com.xgq.po.UserPo">
         SELECT count(1)
         FROM user
         where 1=1

@@ -1,5 +1,7 @@
 package com.xgq.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.xgq.dto.UserDto;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,9 +39,18 @@ public class UserControllerTest {
 
     @Test
     public void test1() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/user/selectUsers?pageNum=1&pageSize=10")
+        UserDto userDto = new UserDto();
+
+        mvc.perform(MockMvcRequestBuilders.post("/user/selectUsers?pageNum=2&pageSize=5")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .param("lat", "123.123").param("lon", "456.456")
+                .content(JSONObject.toJSONString(userDto))
+//                .param("userCode", "")
+//                .param("userMail", "")
+//                .param("userPhone", "")
+//                .param("userName", "")
+//                .param("personalProfile", "")
+//                .param("status", "")
+//                .param("lastLogin", "")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();

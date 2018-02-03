@@ -2,6 +2,7 @@ package com.xgq.mapper;
 
 
 import com.xgq.po.UserPo;
+import dto.PageDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -16,11 +17,7 @@ import java.util.List;
 public interface IUserMapper {
 
 
-    List<UserPo> selectPageList(@Param("user") UserPo userPo, @Param("start") int start,
-        @Param("end") int end);
-
-    List<UserPo> selectList(@Param("user") UserPo userPo);
-
+    List<UserPo> selectPageList(@Param("user") UserPo userPo, @Param("page") PageDto pageDto);
 
 
     int selectCount(@Param("user") UserPo userPo);

@@ -1,7 +1,10 @@
 package com.xgq.service;
 
 
+import com.xgq.dto.UserDto;
 import com.xgq.po.UserPo;
+import dto.PageDto;
+import dto.PageResultDto;
 
 import java.util.List;
 
@@ -11,9 +14,5 @@ import java.util.List;
  */
 public interface IUserService {
 
-
-//    List<UserPo> selectPageList(PageUtil pageUtil);
-
-    int selectCount(UserPo userPo);
-
+    PageResultDto selectPageUsers(UserDto userDto, PageDto pageDto);
 }

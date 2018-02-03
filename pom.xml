@@ -15,7 +15,7 @@
 
 
   <properties>
-    <starter.mybatis.version>1.3.0</starter.mybatis.version>
+    <starter.mybatis.version>1.1.1</starter.mybatis.version>
     <mysql.connector.java>5.1.40</mysql.connector.java>
   </properties>
 
@@ -34,11 +34,11 @@
       <version>1.16.18</version>
     </dependency>
 
-    <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-      <version>3.6</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>commons-net</groupId>-->
+      <!--<artifactId>commons-net</artifactId>-->
+      <!--<version>3.6</version>-->
+    <!--</dependency>-->
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -62,6 +62,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.44</version>
     </dependency>
 
   </dependencies>
