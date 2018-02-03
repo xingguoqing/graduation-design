@@ -14,6 +14,9 @@ import responsecode.ICommonResponse;
 import responsecode.response.CommonResponse;
 import util.exception.BusinessRuntimeException;
 import util.valid.PageUtil;
+import util.valid.StatusUtil;
+
+import java.util.List;
 
 
 /**
@@ -43,14 +46,53 @@ public class UserController {
 
         try {
             PageUtil.validParams(pageNum, pageSize);
-            PageDto pageDto = PageUtil.getPageDto(pageNum,pageSize);
-            PageResultDto pageResultDto = userService.selectPageUsers(userDto,pageDto);
-            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE,pageResultDto);
+            PageDto pageDto = PageUtil.getPageDto(pageNum, pageSize);
+            PageResultDto pageResultDto = userService.selectPageUsers(userDto, pageDto);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, pageResultDto);
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
         }
     }
+
+
+    @ApiOperation(value = "改变用户状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "status", paramType = "path", dataType = "String", value = "变更后的状态", required = true),
+            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户账号", required = true)
+    })
+    @RequestMapping(value = "/changeUserStatus/{status}", method = RequestMethod.POST)
+    public ICommonResponse changeUserStatus(@PathVariable(value = "status") String stauts, @RequestBody List<String> userCodes) {
+
+        try {
+            StatusUtil.validStatus(stauts);
+            userService.changeUserStatus(userCodes, stauts);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
+        } catch (BusinessRuntimeException e) {
+            return new CommonResponse(e.getErrorCode());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+        }
+    }
+
+    @ApiOperation(value = "根据用户编号查询用户")
+    @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户编号", required = true)
+    @RequestMapping(value = "/getUserByUserCode", method = RequestMethod.GET)
+    public ICommonResponse getUserByUserCode(@RequestParam(value = "userCode") String userCode) {
+
+        try {
+            UserDto userDto = userService.getUserByUserCode(userCode);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, userDto);
+        } catch (BusinessRuntimeException e) {
+            return new CommonResponse(e.getErrorCode());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+        }
+    }
+
+
 }

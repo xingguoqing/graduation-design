@@ -33,14 +33,36 @@ public class UserServiceImpl implements IUserService {
         return pageResultDto;
     }
 
+    @Override
+    public void changeUserStatus(List<String> userCodes, String stauts) {
+        userDao.updateStatusByUserCode(userCodes, stauts);
+    }
+
+    @Override
+    public UserDto getUserByUserCode(String userCode) {
+        UserPo userPo = userDao.getUserByUserCode(userCode);
+        return parseToUserDto(userPo);
+    }
+
     private UserPo parseToUserPo(UserDto userDto) {
         UserPo userPo = new UserPo();
         userPo.setUserPhone(userDto.getUserPhone());
         userPo.setPersonalProfile(userDto.getPersonalProfile());
-        userPo.setStatus(userDto.isStatus());
+        userPo.setStatus(userDto.getStatus());
         userPo.setUserCode(userDto.getUserCode());
         userPo.setUserMail(userDto.getUserMail());
         userPo.setUserName(userDto.getUserName());
         return userPo;
+    }
+
+    private UserDto parseToUserDto(UserPo userPo) {
+        UserDto userDto = new UserDto();
+        userDto.setPersonalProfile(userPo.getPersonalProfile());
+        userDto.setStatus(userPo.getStatus());
+        userDto.setUserCode(userPo.getUserCode());
+        userDto.setUserMail(userPo.getUserMail());
+        userDto.setUserName(userPo.getUserName());
+        userDto.setUserPhone(userPo.getUserPhone());
+        return userDto;
     }
 }

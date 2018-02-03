@@ -1,5 +1,6 @@
 package com.xgq.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xgq.dto.UserDto;
 import org.hamcrest.Matchers;
@@ -38,12 +39,24 @@ public class UserControllerTest {
     }
 
     @Test
-    public void test1() throws Exception {
+    public void selectUsers() throws Exception {
         UserDto userDto = new UserDto();
-
         mvc.perform(MockMvcRequestBuilders.post("/user/selectUsers?pageNum=2&pageSize=5")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JSONObject.toJSONString(userDto))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
+    }
+
+    @Test
+    public void changeUserStatus() throws Exception {
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add("1053167600");
+        jsonArray.add("1053167609");
+        mvc.perform(MockMvcRequestBuilders.post("/user/changeUserStatus/Y")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(jsonArray.toJSONString())
 //                .param("userCode", "")
 //                .param("userMail", "")
 //                .param("userPhone", "")
@@ -56,5 +69,14 @@ public class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print()).andReturn();
 //            .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("SUCCESS")));
 
+    }
+
+    @Test
+    public void getUserByUserCode() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/getUserByUserCode?userCode=1053167602")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
     }
 }

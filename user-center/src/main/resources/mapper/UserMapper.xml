@@ -69,5 +69,23 @@
         <include refid="allCondition"/>
     </select>
 
+    <update id="updateStatusByUserCode">
+        UPDATE user
+        SET status = #{stauts}
+        WHERE user_code
+        in
+        <foreach collection="userCodes" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+    <select id="getUserByUserCode" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM user
+        WHERE user_code = #{userCode}
+    </select>
+
 
 </mapper>

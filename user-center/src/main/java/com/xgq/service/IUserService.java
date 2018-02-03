@@ -14,5 +14,26 @@ import java.util.List;
  */
 public interface IUserService {
 
+    /**
+     * 分页查询用户
+     * @param userDto 用户查询条件实体
+     * @param pageDto 分页类（不分页的话传null就可以）
+     * @return 分页结果
+     */
     PageResultDto selectPageUsers(UserDto userDto, PageDto pageDto);
+
+    /**
+     * 更改用户状态
+     * @param userCode 用户编码
+     * @param stauts 更改后的状态
+     */
+    void changeUserStatus(List<String> userCodes, String stauts);
+
+
+    /**
+     * 根据用户编号查询用户
+     * @param userCode 用户编号
+     * @return 查询结果
+     */
+    UserDto getUserByUserCode(String userCode);
 }

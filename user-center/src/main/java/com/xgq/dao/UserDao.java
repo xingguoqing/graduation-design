@@ -25,4 +25,12 @@ public class UserDao {
     public int selectCount(UserPo userPo){
         return userMapper.selectCount(userPo);
     }
+
+    public void updateStatusByUserCode(List<String> userCodes, String stauts) {
+        userMapper.updateStatusByUserCode(userCodes,stauts);
+    }
+
+    public UserPo getUserByUserCode(String userCode) {
+        return userMapper.getUserByUserCode(userCode);
+    }
 }

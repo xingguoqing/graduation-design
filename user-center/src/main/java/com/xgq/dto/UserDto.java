@@ -1,9 +1,7 @@
 package com.xgq.dto;
 
-import com.mysql.fabric.xmlrpc.base.Data;
 import lombok.Getter;
 import lombok.Setter;
-//import org.apache.commons.net.ntp.TimeStamp;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +19,6 @@ public class UserDto {
 
     private String personalProfile;
 
-    private boolean status;
+    private String status;
 
 }

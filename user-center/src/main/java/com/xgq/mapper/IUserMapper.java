@@ -22,4 +22,7 @@ public interface IUserMapper {
 
     int selectCount(@Param("user") UserPo userPo);
 
+    void updateStatusByUserCode(@Param("userCodes") List<String> userCodes, @Param("stauts") String stauts);
+
+    UserPo getUserByUserCode(@Param("userCode") String userCode);
 }

@@ -24,6 +24,6 @@ public class UserPo {
 
     private String personalProfile;
 
-    private boolean status;
+    private String status;
 
 }
