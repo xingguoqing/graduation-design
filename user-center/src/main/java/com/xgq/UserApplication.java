@@ -3,6 +3,7 @@ package com.xgq;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -10,6 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2018/1/27 下午5:39
  */
 @SpringBootApplication
+@EnableEurekaClient
 @MapperScan(value = "com.xgq.mapper")
 @EnableSwagger2
 public class UserApplication {

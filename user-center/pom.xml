@@ -77,39 +77,5 @@
             </resource>
         </resources>
 
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>product</id>
-            <properties>
-                <profiles.active>product</profiles.active>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>develop</id>
-            <properties>
-                <profiles.active>develop</profiles.active>
-            </properties>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
-
-
 </project>

@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Api(value = "用户相关接口", tags = {"UserController"})
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/private/user")
 public class UserController {
 
 

@@ -42,7 +42,7 @@ public class UserControllerTest {
     @Test
     public void selectUsers() throws Exception {
         UserDto userDto = new UserDto();
-        mvc.perform(MockMvcRequestBuilders.post("/user/selectUsers?pageNum=2&pageSize=5")
+        mvc.perform(MockMvcRequestBuilders.post("/private/user/selectUsers?pageNum=2&pageSize=5")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JSONObject.toJSONString(userDto))
                 .accept(MediaType.APPLICATION_JSON))
@@ -55,7 +55,7 @@ public class UserControllerTest {
         JSONArray jsonArray = new JSONArray();
         jsonArray.add("1053167600");
         jsonArray.add("1053167609");
-        mvc.perform(MockMvcRequestBuilders.post("/user/changeUserStatus/Y")
+        mvc.perform(MockMvcRequestBuilders.post("/private/user/changeUserStatus/Y")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonArray.toJSONString())
 //                .param("userCode", "")
@@ -74,7 +74,7 @@ public class UserControllerTest {
 
     @Test
     public void getUserByUserCode() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/user/getUserByUserCode?userCode=1053167602")
+        mvc.perform(MockMvcRequestBuilders.get("/private/user/getUserByUserCode?userCode=1053167602")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -89,7 +89,7 @@ public class UserControllerTest {
         userDto.setUserPhone("15611500060");
         userDto.setUserCode("1234840");
         userDto.setUserPassword("123");
-        mvc.perform(MockMvcRequestBuilders.post("/user/addUser")
+        mvc.perform(MockMvcRequestBuilders.post("/private/user/addUser")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(JSONObject.toJSONString(userDto))
                 .accept(MediaType.APPLICATION_JSON))
@@ -99,7 +99,7 @@ public class UserControllerTest {
 
     @Test
     public void updateUserPhone() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/user/updateUserPhone?phone=15611500999&userCode=123484")
+        mvc.perform(MockMvcRequestBuilders.get("/private/user/updateUserPhone?phone=15611500999&userCode=123484")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -109,7 +109,7 @@ public class UserControllerTest {
 
     @Test
     public void updateUserMail() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/user/updateUserMail?mail=123@163.com&userCode=123484")
+        mvc.perform(MockMvcRequestBuilders.get("/private/user/updateUserMail?mail=123@163.com&userCode=123484")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -119,7 +119,7 @@ public class UserControllerTest {
 
     @Test
     public void updatePassword() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/user/updatePassword?password=123@163.com&userCode=123484")
+        mvc.perform(MockMvcRequestBuilders.get("/private/user/updatePassword?password=123@163.com&userCode=123484")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
