@@ -60,8 +60,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     private UserPo parseToUserPo(UserDto userDto) {
-        if(userDto ==null){
-            LOGGER.error("UserDto转UserPo失败，输入类UserDto为null");
+        if (userDto == null) {
             return null;
         }
         UserPo userPo = new UserPo();
@@ -75,8 +74,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     private UserDto parseToUserDto(UserPo userPo) {
-        if(userPo ==null){
-            LOGGER.error("UserPo转UserDto失败，输入类UserPo为null");
+        if (userPo == null) {
             return null;
         }
         UserDto userDto = new UserDto();

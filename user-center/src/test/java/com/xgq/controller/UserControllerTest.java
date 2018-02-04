@@ -86,8 +86,8 @@ public class UserControllerTest {
         UserPo userDto = new UserPo();
         userDto.setUserName("张三");
         userDto.setUserMail("123@sina.com");
-        userDto.setUserPhone("15611500958");
-        userDto.setUserCode("1234");
+        userDto.setUserPhone("15611500968");
+        userDto.setUserCode("12348");
         userDto.setUserPassword("123");
         mvc.perform(MockMvcRequestBuilders.post("/user/addUser")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

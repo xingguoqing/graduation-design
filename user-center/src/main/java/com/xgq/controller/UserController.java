@@ -56,9 +56,7 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+            return BusinessRuntimeException.responseException(e,"条件分页查询用户失败");
         }
     }
 
@@ -78,9 +76,7 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+            return BusinessRuntimeException.responseException(e,"改变用户状态失败");
         }
     }
 
@@ -95,9 +91,7 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+            return BusinessRuntimeException.responseException(e,"根据用户编号查询用户失败");
         }
     }
 
@@ -124,10 +118,11 @@ public class UserController {
         } catch (BusinessRuntimeException e) {
             return new CommonResponse(e.getErrorCode());
         } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-            return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+            return BusinessRuntimeException.responseException(e,"添加用户失败");
         }
     }
+
+
+
 
 }

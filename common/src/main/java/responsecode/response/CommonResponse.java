@@ -28,4 +28,5 @@ public class CommonResponse implements ICommonResponse {
         this.datas = datas;
     }
 
+
 }
