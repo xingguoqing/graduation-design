@@ -38,21 +38,28 @@ public class UserUtil {
         if (StringUtils.isEmpty(userPo.getUserName())) {
             BusinessRuntimeException.wrapBusiException(UserErrorCode.NAME_ILLEGAL);
         }
-        String mail = userPo.getUserMail();
-        if (!StringUtils.isEmpty(mail)) {
-            if (!Pattern.matches(REGEX_MAIL, mail)) {
-                BusinessRuntimeException.wrapBusiException(UserErrorCode.MAIL_ILLEGAL);
-            }
-        }
         if (StringUtils.isEmpty(userPo.getUserPassword())) {
             BusinessRuntimeException.wrapBusiException(UserErrorCode.PASSWORD_ILLEGAL);
         }
-        String phone = userPo.getUserPhone();
+        vailUserPhone(userPo.getUserPhone());
+        vailUserMail(userPo.getUserMail());
+        LOGGER.info("【用户中心】用户参数校验结束:{}", userPo);
+    }
+
+    public static void vailUserPhone(String phone) {
         if (!StringUtils.isEmpty(phone)) {
             if (!Pattern.matches(REGEX_PHONE, phone)) {
                 BusinessRuntimeException.wrapBusiException(UserErrorCode.PHONE_ILLEGAL);
             }
         }
-        LOGGER.info("【用户中心】用户参数校验结束:{}",userPo);
     }
+
+    public static void vailUserMail(String mail) {
+        if (!StringUtils.isEmpty(mail)) {
+            if (!Pattern.matches(REGEX_MAIL, mail)) {
+                BusinessRuntimeException.wrapBusiException(UserErrorCode.MAIL_ILLEGAL);
+            }
+        }
+    }
+
 }

@@ -86,8 +86,8 @@ public class UserControllerTest {
         UserPo userDto = new UserPo();
         userDto.setUserName("张三");
         userDto.setUserMail("123@sina.com");
-        userDto.setUserPhone("15611500968");
-        userDto.setUserCode("12348");
+        userDto.setUserPhone("15611500060");
+        userDto.setUserCode("1234840");
         userDto.setUserPassword("123");
         mvc.perform(MockMvcRequestBuilders.post("/user/addUser")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -95,5 +95,35 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();
+    }
+
+    @Test
+    public void updateUserPhone() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/updateUserPhone?phone=15611500999&userCode=123484")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
+
+    }
+
+    @Test
+    public void updateUserMail() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/updateUserMail?mail=123@163.com&userCode=123484")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
+
+    }
+
+    @Test
+    public void updatePassword() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/updatePassword?password=123@163.com&userCode=123484")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print()).andReturn();
+
     }
 }

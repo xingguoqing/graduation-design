@@ -42,4 +42,20 @@ public class UserDao {
     public UserPo getUserByUserPhone(String userPhone) {
         return userMapper.getUserByUserPhone(userPhone);
     }
+
+    public void updatPhoneByCode(String phone, String userCode) {
+        userMapper.updatPhoneByCode(phone,userCode);
+    }
+
+    public void updatPersonalProfileByCode(String personalProfile, String userCode) {
+        userMapper.updatPersonalProfileByCode(personalProfile,userCode);
+    }
+
+    public void updateUserMail(String mail, String userCode) {
+        userMapper.updateUserMail(mail,userCode);
+    }
+
+    public void updatePassword(String password, String userCode) {
+        userMapper.updatePassword(password,userCode);
+    }
 }

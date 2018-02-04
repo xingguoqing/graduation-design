@@ -37,10 +37,9 @@ public class BusinessRuntimeException extends RuntimeException {
         LOGGER.error(msg + ":" + cause.getMessage(), cause);
         if (cause instanceof BusinessRuntimeException) {
             BusinessRuntimeException be = (BusinessRuntimeException) cause;
-            if (StringUtils.isEmpty(be.getErrorCode())) {
-                return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
+            if (!StringUtils.isEmpty(be.getErrorCode())) {
+                return new CommonResponse(be.getErrorCode());
             }
-            return new CommonResponse(be.getErrorCode());
         }
         return new CommonResponse(CommonRespCodeEnum.FAIL_CODE);
     }

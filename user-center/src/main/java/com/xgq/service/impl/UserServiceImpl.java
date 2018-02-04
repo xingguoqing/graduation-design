@@ -59,6 +59,26 @@ public class UserServiceImpl implements IUserService {
         return parseToUserDto(userPo);
     }
 
+    @Override
+    public void updatPhoneByCode(String phone, String userCode) {
+        userDao.updatPhoneByCode(phone,userCode);
+    }
+
+    @Override
+    public void updatPersonalProfileByCode(String personalProfile, String userCode) {
+        userDao.updatPersonalProfileByCode(personalProfile,userCode);
+    }
+
+    @Override
+    public void updateUserMail(String mail, String userCode) {
+        userDao.updateUserMail(mail,userCode);
+    }
+
+    @Override
+    public void updatePassword(String password, String userCode) {
+        userDao.updatePassword(password,userCode);
+    }
+
     private UserPo parseToUserPo(UserDto userDto) {
         if (userDto == null) {
             return null;

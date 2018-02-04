@@ -49,4 +49,12 @@ public interface IUserService {
      * @return
      */
     UserDto getUserByUserPhone(String userPhone);
+
+    void updatPhoneByCode(String phone, String userCode);
+
+    void updatPersonalProfileByCode(String personalProfile, String userCode);
+
+    void updateUserMail(String mail, String userCode);
+
+    void updatePassword(String password, String userCode);
 }

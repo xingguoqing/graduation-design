@@ -29,4 +29,12 @@ public interface IUserMapper {
     void addUser(@Param("user") UserPo userPo);
 
     UserPo getUserByUserPhone(@Param("userPhone") String userPhone);
+
+    void updatPhoneByCode(@Param("phone") String phone, @Param("userCode") String userCode);
+
+    void updatPersonalProfileByCode(@Param("personalProfile") String personalProfile, @Param("userCode") String userCode);
+
+    void updateUserMail(@Param("mail") String mail, @Param("userCode") String userCode);
+
+    void updatePassword(@Param("password") String password, @Param("userCode") String userCode);
 }

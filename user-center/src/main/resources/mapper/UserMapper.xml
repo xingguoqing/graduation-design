@@ -78,7 +78,30 @@
         <foreach collection="userCodes" index="index" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
+    </update>
 
+    <update id="updatPhoneByCode">
+        UPDATE user
+        SET user_phone = #{phone}
+        WHERE user_code =#{userCode}
+    </update>
+
+    <update id="updatPersonalProfileByCode">
+        UPDATE user
+        SET personal_profile = #{personalProfile}
+        WHERE user_code =#{userCode}
+    </update>
+
+    <update id="updateUserMail">
+        UPDATE user
+        SET user_mail = #{mail}
+        WHERE user_code =#{userCode}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE user
+        SET user_password = #{password}
+        WHERE user_code =#{userCode}
     </update>
 
     <select id="getUserByUserCode" resultMap="baseRequestMap">
