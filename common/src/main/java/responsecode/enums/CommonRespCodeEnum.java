@@ -10,7 +10,7 @@ import responsecode.ICommonCode;
 @Getter
 public enum CommonRespCodeEnum implements ICommonCode {
 
-    SUCCESS_CODE("0000", "操作成功"), FAIL_CODE("0001", "操作失败"),SERVICE_OFFLINE("0002","服务下线");
+    SUCCESS_CODE("0000", "操作成功"), FAIL_CODE("0001", "操作失败"),SERVICE_OFFLINE("0002","服务下线"),AUTH_ENABLE("0003","请求无权限");
 
     private String code;
 

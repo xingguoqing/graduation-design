@@ -1,0 +1,21 @@
+server:
+    port: 8081
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+
+
+spring:
+    application:
+        name: file-center
+#    datasource:
+#        url: jdbc:mysql://127.0.0.1:3306/graduation?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+#        username: root
+#        password: 123456
+#        driverClassName: com.mysql.jdbc.Driver
+#
+#mybatis:
+#    mapperLocations: classpath:mapper/*.xml
+
+

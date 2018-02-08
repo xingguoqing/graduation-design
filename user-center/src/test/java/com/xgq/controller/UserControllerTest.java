@@ -55,6 +55,7 @@ public class UserControllerTest {
         JSONArray jsonArray = new JSONArray();
         jsonArray.add("1053167600");
         jsonArray.add("1053167609");
+        System.out.println(jsonArray.toJSONString());
         mvc.perform(MockMvcRequestBuilders.post("/private/user/changeUserStatus/Y")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(jsonArray.toJSONString())
