@@ -1,8 +1,12 @@
 package com.xgq.controller;
 
+import com.xgq.dao.UserRoleDao;
 import com.xgq.dto.UserDto;
+import com.xgq.enums.RoleEnum;
 import com.xgq.errorcode.UserErrorCode;
 import com.xgq.po.UserPo;
+import com.xgq.po.UserRolePo;
+import com.xgq.service.IUserRoleService;
 import com.xgq.service.IUserService;
 import com.xgq.util.UserUtil;
 import dto.PageDto;
@@ -12,6 +16,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import responsecode.enums.CommonRespCodeEnum;
 import responsecode.ICommonResponse;
@@ -28,7 +33,7 @@ import java.util.List;
  */
 @Api(value = "用户相关接口", tags = {"UserController"})
 @RestController
-@RequestMapping(value = "/private/user")
+@RequestMapping(value = "/public/user")
 public class UserController {
 
 
@@ -37,6 +42,7 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
 
     @ApiOperation(value = "【管理员】条件分页查询用户")
     @ApiResponse(message = "条件分页查询用户结果", code = 200)
@@ -65,11 +71,11 @@ public class UserController {
             @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户账号", required = true)
     })
     @RequestMapping(value = "/changeUserStatus/{status}", method = RequestMethod.POST)
-    public ICommonResponse changeUserStatus(@PathVariable(value = "status") String stauts, @RequestBody List<String> userCodes) {
+    public ICommonResponse changeUserStatus(@PathVariable(value = "status") String stauts, @RequestBody List<Long> ids) {
 
         try {
             StatusUtil.validStatus(stauts);
-            userService.changeUserStatus(userCodes, stauts);
+            userService.updateStatusByUserIds(ids, stauts);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {
             return BusinessRuntimeException.responseException(e,"改变用户状态失败");
@@ -77,12 +83,15 @@ public class UserController {
     }
 
     @ApiOperation(value = "【管理员】根据用户编号查询用户")
-    @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户编号", required = true)
-    @RequestMapping(value = "/getUserByUserCode", method = RequestMethod.GET)
-    public ICommonResponse getUserByUserCode(@RequestParam(value = "userCode") String userCode) {
+    @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "Long", value = "用户id", required = true)
+    @RequestMapping(value = "/getUserByUserId", method = RequestMethod.GET)
+    public ICommonResponse getUserByUserId(@RequestParam(value = "id") Long id) {
 
         try {
-            UserDto userDto = userService.getUserByUserCode(userCode);
+            UserDto userDto = userService.getUserByUserId(id);
+            if(userDto == null){
+                return new CommonResponse(UserErrorCode.USER_NOT_EXIST);
+            }
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, userDto);
         } catch (Exception e) {
             return BusinessRuntimeException.responseException(e,"根据用户编号查询用户失败");
@@ -90,94 +99,49 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "【用户】添加用户")
+    @ApiOperation(value = "【用户】注册用户")
     @ApiImplicitParam(name = "userPo", paramType = "body", dataType = "UserPo", value = "用户信息", required = true)
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    @Transactional
     public ICommonResponse addUser(@RequestBody UserPo userPo) {
 
         try {
             UserUtil.vailUserParams(userPo);
-            UserDto userDto = userService.getUserByUserCode(userPo.getUserCode());
-            if (userDto != null) {
-                return new CommonResponse(UserErrorCode.CODE_TAKE_UP);
-            }
-            userDto = userService.getUserByUserPhone(userPo.getUserPhone());
-            if (userDto != null) {
-                return new CommonResponse(UserErrorCode.PHONE_TAKE_UP);
-            }
-            //默认启用状态
-            userPo.setStatus(StatusEnum.ABLE.getCode());
             userService.addUser(userPo);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {
-            return BusinessRuntimeException.responseException(e,"添加用户失败");
+            return BusinessRuntimeException.responseException(e,"注册用户失败");
         }
     }
 
     @ApiOperation(value = "【用户】更新用户手机号")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", paramType = "query", dataType = "String", value = "修改后的手机号", required = true),
-            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户编号", required = true)
+            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "Long", value = "用户id", required = true)
     })
     @RequestMapping(value = "/updateUserPhone", method = RequestMethod.GET)
-    public ICommonResponse updateUserPhone(@RequestParam String phone,@RequestParam String userCode){
+    public ICommonResponse updateUserPhone(@RequestParam String phone,@RequestParam Long id){
 
         try {
             UserUtil.vailUserPhone(phone);
-            UserDto userDto = userService.getUserByUserPhone(phone);
-            if (userDto != null) {
-                return new CommonResponse(UserErrorCode.PHONE_TAKE_UP);
-            }
-            userService.updatPhoneByCode(phone,userCode);
+            userService.updateUserPhone(phone,id);
+
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         }catch (Exception e){
             return BusinessRuntimeException.responseException(e,"更新用户手机号失败");
         }
     }
 
-    @ApiOperation(value = "【用户】更新用户邮箱")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "mail", paramType = "query", dataType = "String", value = "修改后的邮箱", required = true),
-            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户编号", required = true)
-    })
-    @RequestMapping(value = "/updateUserMail", method = RequestMethod.GET)
-    public ICommonResponse updateUserMail(@RequestParam String mail,@RequestParam String userCode){
-
-        try {
-            UserUtil.vailUserMail(mail);
-            userService.updateUserMail(mail,userCode);
-            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
-        }catch (Exception e){
-            return BusinessRuntimeException.responseException(e,"更新用户邮箱失败");
-        }
-    }
-
-    @ApiOperation(value = "【用户】更新用户个性签名")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "personalProfile", paramType = "query", dataType = "String", value = "用户个性签名", required = true),
-            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户编号", required = true)
-    })
-    @RequestMapping(value = "/updatePersonalProfile", method = RequestMethod.GET)
-    public ICommonResponse updatePersonalProfile(@RequestParam String personalProfile,@RequestParam String userCode){
-
-        try {
-            userService.updatPersonalProfileByCode(personalProfile,userCode);
-            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
-        }catch (Exception e){
-            return BusinessRuntimeException.responseException(e,"更新用户个性签名失败");
-        }
-    }
-
     @ApiOperation(value = "【用户】修改用户密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "password", paramType = "query", dataType = "String", value = "用户密码", required = true),
-            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "String", value = "用户编号", required = true)
+            @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "Long", value = "用户id", required = true)
     })
     @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
-    public ICommonResponse updatePassword(@RequestParam String password,@RequestParam String userCode){
+    public ICommonResponse updatePassword(@RequestParam String password,@RequestParam Long id){
 
         try {
-            userService.updatePassword(password,userCode);
+            userService.updatePassword(password,id);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         }catch (Exception e){
             return BusinessRuntimeException.responseException(e,"修改用户密码失败");
@@ -185,6 +149,25 @@ public class UserController {
     }
 
 
+
+    @ApiOperation(value = "【用户】登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userPhone",paramType = "query",dataType = "String",value = "用户手机号",required = true),
+            @ApiImplicitParam(name = "password",paramType = "query",dataType = "String",value = "密码",required = true)
+    })
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ICommonResponse login(@RequestParam String userPhone,@RequestParam String password){
+        try{
+            UserUtil.vailUserPhone(userPhone);
+            UserDto userDto = userService.login(userPhone,password);
+            if(userDto == null){
+                return new CommonResponse(UserErrorCode.LOGIN_ILLEGAL);
+            }
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE,userDto);
+        }catch (Exception e){
+            return BusinessRuntimeException.responseException(e,"登录失败");
+        }
+    }
 
 
 

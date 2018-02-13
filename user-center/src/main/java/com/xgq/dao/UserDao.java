@@ -1,6 +1,5 @@
 package com.xgq.dao;
 
-import com.xgq.dto.UserDto;
 import com.xgq.mapper.IUserMapper;
 import com.xgq.po.UserPo;
 import dto.PageDto;
@@ -27,12 +26,12 @@ public class UserDao {
         return userMapper.selectCount(userPo);
     }
 
-    public void updateStatusByUserCode(List<String> userCodes, String stauts) {
-        userMapper.updateStatusByUserCode(userCodes,stauts);
+    public void updateStatusByUserIds(List<Long> ids, String stauts) {
+        userMapper.updateStatusByUserIds(ids,stauts);
     }
 
-    public UserPo getUserByUserCode(String userCode) {
-        return userMapper.getUserByUserCode(userCode);
+    public UserPo getUserByUserId(Long id) {
+        return userMapper.getUserByUserId(id);
     }
 
     public void addUser(UserPo userPo) {
@@ -43,19 +42,11 @@ public class UserDao {
         return userMapper.getUserByUserPhone(userPhone);
     }
 
-    public void updatPhoneByCode(String phone, String userCode) {
-        userMapper.updatPhoneByCode(phone,userCode);
+    public void updatPhoneById(String phone, Long id) {
+        userMapper.updatPhoneById(phone,id);
     }
 
-    public void updatPersonalProfileByCode(String personalProfile, String userCode) {
-        userMapper.updatPersonalProfileByCode(personalProfile,userCode);
-    }
-
-    public void updateUserMail(String mail, String userCode) {
-        userMapper.updateUserMail(mail,userCode);
-    }
-
-    public void updatePassword(String password, String userCode) {
-        userMapper.updatePassword(password,userCode);
+    public void updatePassword(String password, Long id) {
+        userMapper.updatePassword(password,id);
     }
 }

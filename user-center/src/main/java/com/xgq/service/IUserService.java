@@ -24,18 +24,17 @@ public interface IUserService {
 
     /**
      * 更改用户状态
-     * @param userCodes 用户编码
+     * @param ids 用户编码
      * @param stauts 更改后的状态
      */
-    void changeUserStatus(List<String> userCodes, String stauts);
-
+    void updateStatusByUserIds(List<Long> ids, String stauts);
 
     /**
      * 根据用户编号查询用户
-     * @param userCode 用户编号
+     * @param id 用户编号
      * @return 查询结果
      */
-    UserDto getUserByUserCode(String userCode);
+    UserDto getUserByUserId(Long id);
 
     /**
      * 添加用户
@@ -50,11 +49,28 @@ public interface IUserService {
      */
     UserDto getUserByUserPhone(String userPhone);
 
-    void updatPhoneByCode(String phone, String userCode);
+//    /**
+//     * 更新手机号
+//     * @param phone 手机号
+//     * @param id 用户编号
+//     */
+//    void updatPhoneById(String phone, Long id);
 
-    void updatPersonalProfileByCode(String personalProfile, String userCode);
+    /**
+     * 修改密码
+     * @param password 密码
+     * @param id 用户编号
+     */
+    void updatePassword(String password, Long id);
 
-    void updateUserMail(String mail, String userCode);
+    /**
+     * 用户登录
+     * @param userPhone
+     * @param password
+     * @return
+     */
+    UserDto login(String userPhone, String password);
 
-    void updatePassword(String password, String userCode);
+
+    void updateUserPhone(String phone, Long id);
 }

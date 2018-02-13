@@ -5,32 +5,20 @@
 
 
     <resultMap id="baseRequestMap" type="com.xgq.po.UserPo">
-        <id column="user_id" property="userId"/>
-        <result column="user_code" property="userCode"/>
+        <id column="id" property="userId"/>
         <result column="user_password" property="userPassword"/>
-        <result column="user_mail" property="userMail"/>
         <result column="user_phone" property="userPhone"/>
         <result column="user_name" property="userName"/>
-        <result column="personal_profile" property="personalProfile"/>
-        <result column="status" property="status"/>
+        <result column="user_status" property="userStatus"/>
     </resultMap>
 
     <sql id="baseColumns">
-        user_id,user_code,user_password,user_mail,user_phone,user_name,personal_profile,status
+        id,user_password,user_phone,user_name,user_status
     </sql>
 
     <sql id="allCondition">
-        <if test=" user.userId !=null ">
-            AND user_id = #{user.userId}
-        </if>
-        <if test=" user.userCode !=null and user.userCode!='' ">
-            AND user_code = #{user.userCode}
-        </if>
-        <if test=" user.userPassword !=null and user.userPassword!='' ">
-            AND user_password = #{user.userPassword}
-        </if>
-        <if test=" user.userMail !=null and user.userMail!='' ">
-            AND user_mail = #{user.userMail}
+        <if test=" user.userId !=null and user.userId!='' ">
+            AND id = #{user.id}
         </if>
         <if test=" user.userPhone !=null and user.userPhone!='' ">
             AND user_phone = #{user.userPhone}
@@ -38,11 +26,8 @@
         <if test=" user.userName !=null and user.userName!='' ">
             AND user_name = #{user.userName}
         </if>
-        <if test=" user.personalProfile !=null and user.personalProfile!='' ">
-            AND personal_profile = #{user.personalProfile}
-        </if>
-        <if test=" user.status !=null and user.status!='' ">
-            AND status = #{user.status}
+        <if test=" user.userStatus !=null and user.userStatus!='' ">
+            AND user_status = #{user.userStatus}
         </if>
     </sql>
 
@@ -51,7 +36,6 @@
             limit #{page.startNum},#{page.pageSize}
         </if>
     </sql>
-
 
     <select id="selectPageList" resultMap="baseRequestMap">
         SELECT
@@ -70,45 +54,33 @@
         <include refid="allCondition"/>
     </select>
 
-    <update id="updateStatusByUserCode">
+    <update id="updateStatusByUserIds">
         UPDATE user
-        SET status = #{stauts}
-        WHERE user_code
+        SET user_status = #{stauts}
+        WHERE id
         in
-        <foreach collection="userCodes" index="index" item="item" separator="," open="(" close=")">
+        <foreach collection="userIds" index="index" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </update>
 
-    <update id="updatPhoneByCode">
+    <update id="updatPhoneById">
         UPDATE user
         SET user_phone = #{phone}
-        WHERE user_code =#{userCode}
-    </update>
-
-    <update id="updatPersonalProfileByCode">
-        UPDATE user
-        SET personal_profile = #{personalProfile}
-        WHERE user_code =#{userCode}
-    </update>
-
-    <update id="updateUserMail">
-        UPDATE user
-        SET user_mail = #{mail}
-        WHERE user_code =#{userCode}
+        WHERE id =#{id}
     </update>
 
     <update id="updatePassword">
         UPDATE user
         SET user_password = #{password}
-        WHERE user_code =#{userCode}
+        WHERE id =#{id}
     </update>
 
-    <select id="getUserByUserCode" resultMap="baseRequestMap">
+    <select id="getUserByUserId" resultMap="baseRequestMap">
         SELECT
         <include refid="baseColumns"/>
         FROM user
-        WHERE user_code = #{userCode}
+        WHERE id = #{id}
     </select>
 
     <select id="getUserByUserPhone" resultMap="baseRequestMap">
@@ -118,10 +90,11 @@
         WHERE user_phone = #{userPhone}
     </select>
 
-    <insert id="addUser" parameterType="com.xgq.po.UserPo">
+
+    <insert id="addUser" parameterType="com.xgq.po.UserPo" useGeneratedKeys="true" keyColumn="id" keyProperty="user.userId">
         INSERT INTO user
-        (user_code,user_password,user_mail,user_phone,user_name,personal_profile,status)
-        VALUES (#{user.userCode},#{user.userPassword},#{user.userMail},#{user.userPhone},#{user.userName},#{user.personalProfile},#{user.status})
+        (user_password,user_phone,user_name,user_status)
+        VALUES (#{user.userPassword},#{user.userPhone},#{user.userName},#{user.userStatus});
     </insert>
 
 

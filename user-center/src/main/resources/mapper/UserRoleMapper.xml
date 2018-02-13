@@ -1,0 +1,102 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IUserRoleMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.po.UserPo">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,user_id,role_id
+    </sql>
+
+    <sql id="allCondition">
+        <if test=" userRole.id !=null and userRole.id!='' ">
+            AND id = #{userRole.id}
+        </if>
+        <if test=" userRole.userId !=null and userRole.userId!='' ">
+            AND user_id = #{userRole.userId}
+        </if>
+        <if test=" userRole.roleId !=null and userRole.roleId!='' ">
+            AND role_id = #{userRole.roleId}
+        </if>
+    </sql>
+
+    <insert id="addUserRole"  keyProperty="id" parameterType="com.xgq.po.UserRolePo">
+      INSERT INTO user_role
+      (user_id,role_id)
+      VALUES
+      (#{userRole.userId},#{userRole.roleId})
+    </insert>
+
+    <!--<sql id="page">-->
+        <!--<if test="page !=null">-->
+            <!--limit #{page.startNum},#{page.pageSize}-->
+        <!--</if>-->
+    <!--</sql>-->
+
+    <!--<select id="selectPageList" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM user-->
+        <!--where 1=1-->
+        <!--<include refid="allCondition"/>-->
+        <!--ORDER BY create_time DESC-->
+        <!--<include refid="page"/>-->
+    <!--</select>-->
+
+    <!--<select id="selectCount" resultType="int" parameterType="com.xgq.po.UserPo">-->
+        <!--SELECT count(1)-->
+        <!--FROM user-->
+        <!--where 1=1-->
+        <!--<include refid="allCondition"/>-->
+    <!--</select>-->
+
+    <!--<update id="updateStatusByUserIds">-->
+        <!--UPDATE user-->
+        <!--SET status = #{stauts}-->
+        <!--WHERE id-->
+        <!--in-->
+        <!--<foreach collection="userIds" index="index" item="item" separator="," open="(" close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+    <!--<update id="updatPhoneById">-->
+        <!--UPDATE user-->
+        <!--SET user_phone = #{phone}-->
+        <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<update id="updatePassword">-->
+        <!--UPDATE user-->
+        <!--SET user_password = #{password}-->
+        <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<select id="getUserByUserId" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM user-->
+        <!--WHERE id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="getUserByUserPhone" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM user-->
+        <!--WHERE user_phone = #{userPhone}-->
+    <!--</select>-->
+
+    <!--<insert id="addUser" parameterType="com.xgq.po.UserPo" useGeneratedKeys="true" keyProperty="id">-->
+        <!--INSERT INTO user-->
+        <!--(user_password,user_phone,user_name,user_status)-->
+        <!--VALUES (#{user.userPassword},#{user.userPhone},#{user.userName},#{user.userStatus})-->
+    <!--</insert>-->
+
+
+</mapper>

@@ -1,6 +1,5 @@
 package com.xgq.errorcode;
 
-import lombok.Getter;
 import responsecode.ICommonCode;
 
 /**

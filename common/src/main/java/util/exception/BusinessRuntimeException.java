@@ -32,7 +32,19 @@ public class BusinessRuntimeException extends RuntimeException {
         throw new BusinessRuntimeException(errorCode);
     }
 
-    public static ICommonResponse responseException(Throwable e,String msg){
+//    public static ICommonResponse responseException(ICommonCode errorCode) {
+//        Throwable cause = unmarsh(e);
+//        LOGGER.error(msg + ":" + cause.getMessage(), cause);
+//        if (cause instanceof BusinessRuntimeException) {
+//            BusinessRuntimeException be = (BusinessRuntimeException) cause;
+//            if (!StringUtils.isEmpty(be.getErrorCode())) {
+//                return new CommonResponse(be.getErrorCode());
+//            }
+//        }
+//        return new CommonResponse(errorCode);
+//    }
+
+    public static ICommonResponse responseException(Throwable e, String msg) {
         Throwable cause = unmarsh(e);
         LOGGER.error(msg + ":" + cause.getMessage(), cause);
         if (cause instanceof BusinessRuntimeException) {

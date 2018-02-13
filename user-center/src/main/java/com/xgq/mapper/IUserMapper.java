@@ -19,22 +19,18 @@ public interface IUserMapper {
 
     List<UserPo> selectPageList(@Param("user") UserPo userPo, @Param("page") PageDto pageDto);
 
-
     int selectCount(@Param("user") UserPo userPo);
 
-    void updateStatusByUserCode(@Param("userCodes") List<String> userCodes, @Param("stauts") String stauts);
+    void updateStatusByUserIds(@Param("userIds") List<Long> userIds, @Param("stauts") String stauts);
 
-    UserPo getUserByUserCode(@Param("userCode") String userCode);
+    UserPo getUserByUserId(@Param("id") Long id);
 
     void addUser(@Param("user") UserPo userPo);
 
     UserPo getUserByUserPhone(@Param("userPhone") String userPhone);
 
-    void updatPhoneByCode(@Param("phone") String phone, @Param("userCode") String userCode);
+    void updatPhoneById(@Param("phone") String phone, @Param("id") Long id);
 
-    void updatPersonalProfileByCode(@Param("personalProfile") String personalProfile, @Param("userCode") String userCode);
+    void updatePassword(@Param("password") String password, @Param("id") Long id);
 
-    void updateUserMail(@Param("mail") String mail, @Param("userCode") String userCode);
-
-    void updatePassword(@Param("password") String password, @Param("userCode") String userCode);
 }

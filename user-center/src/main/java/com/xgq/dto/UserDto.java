@@ -10,17 +10,13 @@ import org.springframework.stereotype.Component;
 @Getter
 public class UserDto {
 
-    private String userCode;
-
-    private String userMail;
+    private Long id;
 
     private String userPhone;
 
     private String userName;
 
-    private String personalProfile;
-
-    private String status;
+    private String userStatus;
 
     @Override
     public String toString(){

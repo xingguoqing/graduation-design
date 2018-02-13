@@ -38,12 +38,13 @@
 //
 //    @Override
 //    public Object run() {
+//
 //        RequestContext ctx = RequestContext.getCurrentContext();
+//
 //        HttpServletRequest request = ctx.getRequest();
 //        String serviceId = ctx.get(FilterConstants.SERVICE_ID_KEY).toString();
 //        if (OAUTH_SERVICE_ID.equals(serviceId)) {
-//            log.info("request service id : {}", serviceId);
-//            log.info("no need filter");
+//            log.info("请求的serviceId为:{}", serviceId);
 //            ctx.setSendZuulResponse(true);
 //            ctx.setResponseStatusCode(HttpStatus.OK.value());
 //            return null;
@@ -54,10 +55,6 @@
 //            log.info("http header contains no token");
 //            ctx.setSendZuulResponse(false);
 //            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-////            CommonResponse unAuthResponse = new CommonResponse();
-////            unAuthResponse.setCode("9999");
-////            unAuthResponse.setMsg("请求无权限");
-////            ctx.setRes
 //            ctx.setResponseBody(CommonRespCodeEnum.AUTH_ENABLE.toString());
 //        } else {
 //            log.info("http header contains token");

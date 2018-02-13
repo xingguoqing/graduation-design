@@ -18,7 +18,6 @@ import sun.misc.BASE64Encoder;
 import util.exception.BusinessRuntimeException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;

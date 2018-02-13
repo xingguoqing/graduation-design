@@ -10,13 +10,12 @@ import responsecode.ICommonCode;
 @Getter
 public enum UserErrorCode implements ICommonCode{
 
-    CODE_ILLEGAL("4001","用户编号不合法"),
     NAME_ILLEGAL("4002","用户名不合法"),
-    MAIL_ILLEGAL("4003","邮箱不合法"),
     PHONE_ILLEGAL("4004","手机不合法"),
     PASSWORD_ILLEGAL("4005","密码不合法"),
-    CODE_TAKE_UP("4101","用户编号已被使用"),
-    PHONE_TAKE_UP("4102","手机号已被使用");
+    PHONE_TAKE_UP("4006","手机号已被使用"),
+    LOGIN_ILLEGAL("4001","手机号或密码不正确"),
+    USER_NOT_EXIST("4003","用户不存在");
 
     private String code;
 

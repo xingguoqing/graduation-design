@@ -2,14 +2,22 @@ package com.xgq.service.impl;
 
 import com.xgq.dao.UserDao;
 import com.xgq.dto.UserDto;
+import com.xgq.enums.RoleEnum;
+import com.xgq.errorcode.UserErrorCode;
 import com.xgq.po.UserPo;
+import com.xgq.po.UserRolePo;
+import com.xgq.service.IUserRoleService;
 import com.xgq.service.IUserService;
 import dto.PageDto;
 import dto.PageResultDto;
+import enums.StatusEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import responsecode.response.CommonResponse;
+import util.exception.BusinessRuntimeException;
 
 import java.util.List;
 
@@ -23,7 +31,10 @@ public class UserServiceImpl implements IUserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
+
+    @Autowired
+    private IUserRoleService userRoleService;
 
     @Override
     public PageResultDto selectPageUsers(UserDto userDto, PageDto pageDto) {
@@ -38,20 +49,39 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void changeUserStatus(List<String> userCodes, String stauts) {
-        userDao.updateStatusByUserCode(userCodes, stauts);
+    public void updateStatusByUserIds(List<Long> ids, String stauts) {
+        userDao.updateStatusByUserIds(ids, stauts);
     }
 
     @Override
-    public UserDto getUserByUserCode(String userCode) {
-        UserPo userPo = userDao.getUserByUserCode(userCode);
+    public UserDto getUserByUserId(Long id) {
+        UserPo userPo = userDao.getUserByUserId(id);
         return parseToUserDto(userPo);
     }
 
     @Override
+    @Transactional
     public void addUser(UserPo userPo) {
+        UserDto userDto = getUserByUserPhone(userPo.getUserPhone());
+        if (userDto != null) {
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.PHONE_TAKE_UP);
+        }
+        //默认禁用状态
+        userPo.setUserStatus(StatusEnum.ENABLE.getCode());
         userDao.addUser(userPo);
+        //添加用户角色
+        UserRolePo userRolePo = new UserRolePo();
+        userRolePo.setRoleId(RoleEnum.ORDINARY_USER.getCode());
+        userRolePo.setUserId(userPo.getUserId());
+        userRoleService.addUserRole(userRolePo);
     }
+
+
+//    @Override
+//    public void updatPhoneById(String phone, Long id) {
+//        userDao.updatPhoneById(phone, id);
+//    }
+
 
     @Override
     public UserDto getUserByUserPhone(String userPhone) {
@@ -59,24 +89,47 @@ public class UserServiceImpl implements IUserService {
         return parseToUserDto(userPo);
     }
 
+
     @Override
-    public void updatPhoneByCode(String phone, String userCode) {
-        userDao.updatPhoneByCode(phone,userCode);
+    public void updatePassword(String password, Long id) {
+        UserDto userDto = getUserByUserId(id);
+        if(userDto == null){
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_EXIST);
+        }
+        userDao.updatePassword(password, id);
     }
 
     @Override
-    public void updatPersonalProfileByCode(String personalProfile, String userCode) {
-        userDao.updatPersonalProfileByCode(personalProfile,userCode);
+    public UserDto login(String userPhone, String password) {
+        UserPo userPo = userDao.getUserByUserPhone(userPhone);
+        if (userPo == null) {
+            return null;
+        }
+        if (userPo.getUserPassword().equals(password)) {
+            return parseToUserDto(userPo);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void updateUserMail(String mail, String userCode) {
-        userDao.updateUserMail(mail,userCode);
+    public void updateUserPhone(String phone, Long id) {
+        UserDto userDto = getUserByUserId(id);
+        if (userDto == null) {
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_EXIST);
+        }
+        userDao.updatPhoneById(phone, id);
     }
 
-    @Override
-    public void updatePassword(String password, String userCode) {
-        userDao.updatePassword(password,userCode);
+    private UserDto parseToUserDto(UserPo userPo) {
+        if (userPo == null) {
+            return null;
+        }
+        UserDto userDto = new UserDto();
+        userDto.setUserStatus(userPo.getUserStatus());
+        userDto.setUserName(userPo.getUserName());
+        userDto.setUserPhone(userPo.getUserPhone());
+        return userDto;
     }
 
     private UserPo parseToUserPo(UserDto userDto) {
@@ -85,25 +138,8 @@ public class UserServiceImpl implements IUserService {
         }
         UserPo userPo = new UserPo();
         userPo.setUserPhone(userDto.getUserPhone());
-        userPo.setPersonalProfile(userDto.getPersonalProfile());
-        userPo.setStatus(userDto.getStatus());
-        userPo.setUserCode(userDto.getUserCode());
-        userPo.setUserMail(userDto.getUserMail());
+        userPo.setUserStatus(userDto.getUserStatus());
         userPo.setUserName(userDto.getUserName());
         return userPo;
-    }
-
-    private UserDto parseToUserDto(UserPo userPo) {
-        if (userPo == null) {
-            return null;
-        }
-        UserDto userDto = new UserDto();
-        userDto.setPersonalProfile(userPo.getPersonalProfile());
-        userDto.setStatus(userPo.getStatus());
-        userDto.setUserCode(userPo.getUserCode());
-        userDto.setUserMail(userPo.getUserMail());
-        userDto.setUserName(userPo.getUserName());
-        userDto.setUserPhone(userPo.getUserPhone());
-        return userDto;
     }
 }
