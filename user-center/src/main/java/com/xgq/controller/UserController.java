@@ -1,17 +1,12 @@
 package com.xgq.controller;
 
-import com.xgq.dao.UserRoleDao;
 import com.xgq.dto.UserDto;
-import com.xgq.enums.RoleEnum;
 import com.xgq.errorcode.UserErrorCode;
 import com.xgq.po.UserPo;
-import com.xgq.po.UserRolePo;
-import com.xgq.service.IUserRoleService;
 import com.xgq.service.IUserService;
 import com.xgq.util.UserUtil;
 import dto.PageDto;
 import dto.PageResultDto;
-import enums.StatusEnum;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,9 +155,6 @@ public class UserController {
         try{
             UserUtil.vailUserPhone(userPhone);
             UserDto userDto = userService.login(userPhone,password);
-            if(userDto == null){
-                return new CommonResponse(UserErrorCode.LOGIN_ILLEGAL);
-            }
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE,userDto);
         }catch (Exception e){
             return BusinessRuntimeException.responseException(e,"登录失败");

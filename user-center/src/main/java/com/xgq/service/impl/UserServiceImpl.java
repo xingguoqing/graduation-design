@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import responsecode.response.CommonResponse;
 import util.exception.BusinessRuntimeException;
 
 import java.util.List;
@@ -103,13 +102,17 @@ public class UserServiceImpl implements IUserService {
     public UserDto login(String userPhone, String password) {
         UserPo userPo = userDao.getUserByUserPhone(userPhone);
         if (userPo == null) {
-            return null;
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_EXIST);
+        }
+        if(StatusEnum.ENABLE.getCode().equals(userPo.getUserStatus())){
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_ACTIVATION);
         }
         if (userPo.getUserPassword().equals(password)) {
             return parseToUserDto(userPo);
         } else {
-            return null;
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.LOGIN_ILLEGAL);;
         }
+        return null;
     }
 
     @Override
