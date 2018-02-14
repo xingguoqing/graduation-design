@@ -6,6 +6,8 @@ import com.xgq.service.IUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author xingguoqing
  * @date 2018/2/13 下午9:19
@@ -19,5 +21,10 @@ public class UserRoleServiceImpl implements IUserRoleService{
     @Override
     public Long addUserRole(UserRolePo userRolePo) {
         return userRoleDao.addUserRole(userRolePo);
+    }
+
+    @Override
+    public List<UserRolePo> selByUserId(Long subUserId) {
+        return userRoleDao.selByUserId(subUserId);
     }
 }

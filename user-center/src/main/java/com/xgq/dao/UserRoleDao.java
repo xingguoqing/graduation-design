@@ -6,6 +6,8 @@ import com.xgq.po.UserRolePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author xingguoqing
  * @date 2018/2/13 下午9:19
@@ -18,5 +20,9 @@ public class UserRoleDao {
 
     public Long addUserRole(UserRolePo userRolePo) {
         return userRoleMapper.addUserRole(userRolePo);
+    }
+
+    public List<UserRolePo> selByUserId(Long subUserId) {
+        return userRoleMapper.selByUserId(subUserId);
     }
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.xgq.mapper.IUserRoleMapper">
 
 
-    <resultMap id="baseRequestMap" type="com.xgq.po.UserPo">
+    <resultMap id="baseRequestMap" type="com.xgq.po.UserRolePo">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="role_id" property="roleId"/>
@@ -32,6 +32,13 @@
       VALUES
       (#{userRole.userId},#{userRole.roleId})
     </insert>
+
+    <select id="selByUserId" parameterType="Long" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        from user_role
+        WHERE user_id = #{subUserId}
+    </select>
 
     <!--<sql id="page">-->
         <!--<if test="page !=null">-->

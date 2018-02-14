@@ -1,0 +1,133 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IJobMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.dto.JobDto">
+        <id column="id" property="id"/>
+        <result column="sub_user_id" property="subUserId"/>
+        <result column="repairer_id" property="repairerId"/>
+        <result column="job_type" property="jobType"/>
+        <result column="job_desc" property="jobDesc"/>
+        <result column="status" property="status"/>
+        <result column="repairer_reply" property="repairerReply"/>
+        <result column="evaluate" property="evaluate"/>
+        <result column="evaluate_level" property="evaluateLevel"/>
+        <result column="add_id" property="addId"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,
+        sub_user_id,
+        repairer_id,
+        job_type,
+        job_desc,
+        status,
+        repairer_reply,
+        evaluate,
+        evaluate_level,
+        add_id
+    </sql>
+
+    <sql id="allCondition">
+        <if test=" jobDto.id !=null and jobDto.id!='' ">
+            AND id = #{jobDto.id}
+        </if>
+        <if test=" jobDto.subUserId !=null and jobDto.subUserId!='' ">
+            AND sub_user_id = #{jobDto.subUserId}
+        </if>
+        <if test=" jobDto.repairerId !=null and jobDto.repairerId!='' ">
+            AND repairer_id = #{jobDto.repairerId}
+        </if>
+        <if test=" jobDto.jobType !=null and jobDto.jobType!='' ">
+            AND job_type = #{jobDto.jobType}
+        </if>
+        <if test=" jobDto.jobDesc !=null and jobDto.jobDesc!='' ">
+            AND job_desc = #{jobDto.jobDesc}
+        </if>
+        <if test=" jobDto.status !=null and jobDto.status!='' ">
+            AND status = #{jobDto.status}
+        </if>
+        <if test=" jobDto.repairerReply !=null and jobDto.repairerReply!='' ">
+            AND repairer_reply = #{jobDto.repairerReply}
+        </if>
+        <if test=" jobDto.evaluate !=null and jobDto.evaluate!='' ">
+            AND evaluate = #{jobDto.evaluate}
+        </if>
+        <if test=" jobDto.evaluateLevel !=null and jobDto.evaluateLevel!='' ">
+            AND evaluate_level = #{jobDto.evaluateLevel}
+        </if>
+        <if test=" jobDto.addId !=null and jobDto.addId!='' ">
+            AND add_id = #{jobDto.addId}
+        </if>
+    </sql>
+
+    <sql id="page">
+        <if test="page !=null">
+            limit #{page.startNum},#{page.pageSize}
+        </if>
+    </sql>
+
+    <select id="selectPageList" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM job
+        where 1=1
+        <include refid="allCondition"/>
+        ORDER BY create_time DESC
+        <include refid="page"/>
+    </select>
+
+    <select id="selectCount" resultType="int" parameterType="com.xgq.dto.JobDto">
+        SELECT count(1)
+        FROM job
+        where 1=1
+        <include refid="allCondition"/>
+    </select>
+
+    <!--<update id="updateStatusByUserIds">-->
+        <!--UPDATE user-->
+        <!--SET user_status = #{stauts}-->
+        <!--WHERE id-->
+        <!--in-->
+        <!--<foreach collection="userIds" index="index" item="item" separator="," open="(" close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+    <!--<update id="updatPhoneById">-->
+        <!--UPDATE user-->
+        <!--SET user_phone = #{phone}-->
+        <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<update id="updatePassword">-->
+        <!--UPDATE user-->
+        <!--SET user_password = #{password}-->
+        <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<select id="getUserByUserId" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM user-->
+        <!--WHERE id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="getUserByUserPhone" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM user-->
+        <!--WHERE user_phone = #{userPhone}-->
+    <!--</select>-->
+
+
+    <!--<insert id="addUser" parameterType="com.xgq.po.UserPo" useGeneratedKeys="true" keyColumn="id" keyProperty="user.userId">-->
+        <!--INSERT INTO user-->
+        <!--(user_password,user_phone,user_name,user_status)-->
+        <!--VALUES (#{user.userPassword},#{user.userPhone},#{user.userName},#{user.userStatus});-->
+    <!--</insert>-->
+
+
+</mapper>

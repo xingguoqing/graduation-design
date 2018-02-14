@@ -1,6 +1,8 @@
 package com.xgq.enums;
 
+import com.xgq.errorcode.RoleErrorCode;
 import lombok.Getter;
+import util.exception.BusinessRuntimeException;
 
 /**
  * @author xingguoqing
@@ -20,6 +22,16 @@ public enum RoleEnum {
     RoleEnum(Long code,String name){
         this.code = code;
         this.name = name;
+    }
+
+    public static RoleEnum getEnumByCode(Long code){
+        for(RoleEnum roleEnum : RoleEnum.values()){
+            if(roleEnum.getCode().equals(code)){
+                return roleEnum;
+            }
+        }
+        BusinessRuntimeException.wrapBusiException(RoleErrorCode.ROLE_ILLEGAL);
+        return null;
     }
 
 }

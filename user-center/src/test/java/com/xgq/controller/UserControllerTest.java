@@ -84,7 +84,7 @@ public class UserControllerTest {
 
     @Test
     public void login() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/public/user/login?userPhone=15611500999&password=123")
+        mvc.perform(MockMvcRequestBuilders.post("/public/user/login?userPhone=15611500953&password=123456")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

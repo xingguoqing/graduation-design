@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import util.exception.BusinessRuntimeException;
 
 import java.util.List;
@@ -35,16 +34,10 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserRoleService userRoleService;
 
+
     @Override
     public PageResultDto selectPageUsers(UserDto userDto, PageDto pageDto) {
-
-        UserPo userPo = parseToUserPo(userDto);
-        int count = userDao.selectCount(userPo);
-        List<UserPo> users = userDao.selectPageList(userPo, pageDto);
-        PageResultDto pageResultDto = new PageResultDto();
-        pageResultDto.setCount(count);
-        pageResultDto.setDatas(users);
-        return pageResultDto;
+        return null;
     }
 
     @Override
@@ -59,7 +52,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    @Transactional
     public void addUser(UserPo userPo) {
         UserDto userDto = getUserByUserPhone(userPo.getUserPhone());
         if (userDto != null) {
@@ -68,11 +60,11 @@ public class UserServiceImpl implements IUserService {
         //默认禁用状态
         userPo.setUserStatus(StatusEnum.ENABLE.getCode());
         userDao.addUser(userPo);
-        //添加用户角色
-        UserRolePo userRolePo = new UserRolePo();
-        userRolePo.setRoleId(RoleEnum.ORDINARY_USER.getCode());
-        userRolePo.setUserId(userPo.getUserId());
-        userRoleService.addUserRole(userRolePo);
+//        //添加用户角色
+//        UserRolePo userRolePo = new UserRolePo();
+//        userRolePo.setRoleId(roleEnum.getCode());
+//        userRolePo.setUserId(userPo.getUserId());
+//        userRoleService.addUserRole(userRolePo);
     }
 
     @Override

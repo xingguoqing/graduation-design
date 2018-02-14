@@ -11,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @date 2018/1/27 下午5:39
  */
 @SpringBootApplication
-//@EnableEurekaClient
+@EnableEurekaClient
 @MapperScan(value = "com.xgq.mapper")
 @EnableSwagger2
 public class UserApplication {
