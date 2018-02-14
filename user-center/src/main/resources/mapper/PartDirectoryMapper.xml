@@ -1,0 +1,73 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IPartDirectoryMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.po.PartDirectoryPo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="is_leaf" property="isLeaf"/>
+        <result column="parent_code" property="parentCode"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,name,code,is_leaf,parent_code
+    </sql>
+
+
+
+
+    <select id="getNameById" parameterType="Long" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM part_directory
+        where id = #{id}
+    </select>
+
+    <!--<update id="updateStatusByUserIds">-->
+    <!--UPDATE user-->
+    <!--SET user_status = #{stauts}-->
+    <!--WHERE id-->
+    <!--in-->
+    <!--<foreach collection="userIds" index="index" item="item" separator="," open="(" close=")">-->
+    <!--#{item}-->
+    <!--</foreach>-->
+    <!--</update>-->
+
+    <!--<update id="updatPhoneById">-->
+    <!--UPDATE user-->
+    <!--SET user_phone = #{phone}-->
+    <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<update id="updatePassword">-->
+    <!--UPDATE user-->
+    <!--SET user_password = #{password}-->
+    <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<select id="getUserByUserId" resultMap="baseRequestMap">-->
+    <!--SELECT-->
+    <!--<include refid="baseColumns"/>-->
+    <!--FROM user-->
+    <!--WHERE id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="getUserByUserPhone" resultMap="baseRequestMap">-->
+    <!--SELECT-->
+    <!--<include refid="baseColumns"/>-->
+    <!--FROM user-->
+    <!--WHERE user_phone = #{userPhone}-->
+    <!--</select>-->
+
+
+    <!--<insert id="addUser" parameterType="com.xgq.po.UserPo" useGeneratedKeys="true" keyColumn="id" keyProperty="user.userId">-->
+    <!--INSERT INTO user-->
+    <!--(user_password,user_phone,user_name,user_status)-->
+    <!--VALUES (#{user.userPassword},#{user.userPhone},#{user.userName},#{user.userStatus});-->
+    <!--</insert>-->
+
+
+</mapper>

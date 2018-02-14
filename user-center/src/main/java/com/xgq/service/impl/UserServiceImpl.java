@@ -75,13 +75,6 @@ public class UserServiceImpl implements IUserService {
         userRoleService.addUserRole(userRolePo);
     }
 
-
-//    @Override
-//    public void updatPhoneById(String phone, Long id) {
-//        userDao.updatPhoneById(phone, id);
-//    }
-
-
     @Override
     public UserDto getUserByUserPhone(String userPhone) {
         UserPo userPo = userDao.getUserByUserPhone(userPhone);
@@ -92,7 +85,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void updatePassword(String password, Long id) {
         UserDto userDto = getUserByUserId(id);
-        if(userDto == null){
+        if (userDto == null) {
             BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_EXIST);
         }
         userDao.updatePassword(password, id);
@@ -104,13 +97,13 @@ public class UserServiceImpl implements IUserService {
         if (userPo == null) {
             BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_EXIST);
         }
-        if(StatusEnum.ENABLE.getCode().equals(userPo.getUserStatus())){
+        if (StatusEnum.ENABLE.getCode().equals(userPo.getUserStatus())) {
             BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_ACTIVATION);
         }
         if (userPo.getUserPassword().equals(password)) {
             return parseToUserDto(userPo);
         } else {
-            BusinessRuntimeException.wrapBusiException(UserErrorCode.LOGIN_ILLEGAL);;
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.LOGIN_ILLEGAL);
         }
         return null;
     }
@@ -124,11 +117,28 @@ public class UserServiceImpl implements IUserService {
         userDao.updatPhoneById(phone, id);
     }
 
+    @Override
+    public void addRepaire(UserPo userPo) {
+        UserDto userDto = getUserByUserPhone(userPo.getUserPhone());
+        if (userDto != null) {
+            BusinessRuntimeException.wrapBusiException(UserErrorCode.PHONE_TAKE_UP);
+        }
+        //默认禁用状态
+        userPo.setUserStatus(StatusEnum.ENABLE.getCode());
+        userDao.addUser(userPo);
+        //添加用户角色
+        UserRolePo userRolePo = new UserRolePo();
+        userRolePo.setRoleId(RoleEnum.REPAIR_PERSONNEL.getCode());
+        userRolePo.setUserId(userPo.getUserId());
+        userRoleService.addUserRole(userRolePo);
+    }
+
     private UserDto parseToUserDto(UserPo userPo) {
         if (userPo == null) {
             return null;
         }
         UserDto userDto = new UserDto();
+        userDto.setId(userPo.getUserId());
         userDto.setUserStatus(userPo.getUserStatus());
         userDto.setUserName(userPo.getUserName());
         userDto.setUserPhone(userPo.getUserPhone());

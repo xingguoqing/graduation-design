@@ -8,6 +8,7 @@ import com.xgq.util.UserUtil;
 import dto.PageDto;
 import dto.PageResultDto;
 import io.swagger.annotations.*;
+import jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import util.exception.BusinessRuntimeException;
 import util.valid.PageUtil;
 import util.valid.StatusUtil;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -55,7 +58,7 @@ public class UserController {
             PageResultDto pageResultDto = userService.selectPageUsers(userDto, pageDto);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, pageResultDto);
         } catch (Exception e) {
-            return BusinessRuntimeException.responseException(e,"条件分页查询用户失败");
+            return BusinessRuntimeException.responseException(e, "条件分页查询用户失败");
         }
     }
 
@@ -73,7 +76,7 @@ public class UserController {
             userService.updateStatusByUserIds(ids, stauts);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {
-            return BusinessRuntimeException.responseException(e,"改变用户状态失败");
+            return BusinessRuntimeException.responseException(e, "改变用户状态失败");
         }
     }
 
@@ -84,12 +87,12 @@ public class UserController {
 
         try {
             UserDto userDto = userService.getUserByUserId(id);
-            if(userDto == null){
+            if (userDto == null) {
                 return new CommonResponse(UserErrorCode.USER_NOT_EXIST);
             }
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, userDto);
         } catch (Exception e) {
-            return BusinessRuntimeException.responseException(e,"根据用户编号查询用户失败");
+            return BusinessRuntimeException.responseException(e, "根据用户编号查询用户失败");
         }
     }
 
@@ -105,7 +108,7 @@ public class UserController {
             userService.addUser(userPo);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {
-            return BusinessRuntimeException.responseException(e,"注册用户失败");
+            return BusinessRuntimeException.responseException(e, "注册用户失败");
         }
     }
 
@@ -115,15 +118,15 @@ public class UserController {
             @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "Long", value = "用户id", required = true)
     })
     @RequestMapping(value = "/updateUserPhone", method = RequestMethod.GET)
-    public ICommonResponse updateUserPhone(@RequestParam String phone,@RequestParam Long id){
+    public ICommonResponse updateUserPhone(@RequestParam String phone, @RequestParam Long id) {
 
         try {
             UserUtil.vailUserPhone(phone);
-            userService.updateUserPhone(phone,id);
+            userService.updateUserPhone(phone, id);
 
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
-        }catch (Exception e){
-            return BusinessRuntimeException.responseException(e,"更新用户手机号失败");
+        } catch (Exception e) {
+            return BusinessRuntimeException.responseException(e, "更新用户手机号失败");
         }
     }
 
@@ -133,35 +136,51 @@ public class UserController {
             @ApiImplicitParam(name = "userCode", paramType = "query", dataType = "Long", value = "用户id", required = true)
     })
     @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
-    public ICommonResponse updatePassword(@RequestParam String password,@RequestParam Long id){
+    public ICommonResponse updatePassword(@RequestParam String password, @RequestParam Long id) {
 
         try {
-            userService.updatePassword(password,id);
+            userService.updatePassword(password, id);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
-        }catch (Exception e){
-            return BusinessRuntimeException.responseException(e,"修改用户密码失败");
+        } catch (Exception e) {
+            return BusinessRuntimeException.responseException(e, "修改用户密码失败");
         }
     }
-
 
 
     @ApiOperation(value = "【用户】登录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userPhone",paramType = "query",dataType = "String",value = "用户手机号",required = true),
-            @ApiImplicitParam(name = "password",paramType = "query",dataType = "String",value = "密码",required = true)
+            @ApiImplicitParam(name = "userPhone", paramType = "query", dataType = "String", value = "用户手机号", required = true),
+            @ApiImplicitParam(name = "password", paramType = "query", dataType = "String", value = "密码", required = true)
     })
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ICommonResponse login(@RequestParam String userPhone,@RequestParam String password){
-        try{
+    public ICommonResponse login(HttpServletResponse response, @RequestParam String userPhone, @RequestParam String password) {
+        try {
             UserUtil.vailUserPhone(userPhone);
-            UserDto userDto = userService.login(userPhone,password);
-            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE,userDto);
-        }catch (Exception e){
-            return BusinessRuntimeException.responseException(e,"登录失败");
+            UserDto userDto = userService.login(userPhone, password);
+            //创建JWT
+            String jwt = JwtUtils.createJwt(userDto.getId());
+            response.addHeader("sign",jwt);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, userDto);
+        } catch (Exception e) {
+            return BusinessRuntimeException.responseException(e, "登录失败");
         }
     }
 
 
+    @ApiOperation(value = "【维修员】注册维修员")
+    @ApiImplicitParam(name = "userPo", paramType = "body", dataType = "UserPo", value = "w维修员信息", required = true)
+    @RequestMapping(value = "/addRepaire", method = RequestMethod.POST)
+    @Transactional
+    public ICommonResponse addRepaire(@RequestBody UserPo userPo) {
+
+        try {
+            UserUtil.vailUserParams(userPo);
+            userService.addRepaire(userPo);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
+        } catch (Exception e) {
+            return BusinessRuntimeException.responseException(e, "注册用户失败");
+        }
+    }
 
 
 }

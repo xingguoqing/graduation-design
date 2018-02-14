@@ -49,13 +49,6 @@ public interface IUserService {
      */
     UserDto getUserByUserPhone(String userPhone);
 
-//    /**
-//     * 更新手机号
-//     * @param phone 手机号
-//     * @param id 用户编号
-//     */
-//    void updatPhoneById(String phone, Long id);
-
     /**
      * 修改密码
      * @param password 密码
@@ -73,4 +66,6 @@ public interface IUserService {
 
 
     void updateUserPhone(String phone, Long id);
+
+    void addRepaire(UserPo userPo);
 }
