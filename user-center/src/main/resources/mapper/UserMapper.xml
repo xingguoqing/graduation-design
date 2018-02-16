@@ -10,10 +10,12 @@
         <result column="user_phone" property="userPhone"/>
         <result column="user_name" property="userName"/>
         <result column="user_status" property="userStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
     </resultMap>
 
     <sql id="baseColumns">
-        id,user_password,user_phone,user_name,user_status
+        id,user_password,user_phone,user_name,user_status,create_time,last_login_time
     </sql>
 
     <sql id="allCondition">
@@ -96,6 +98,52 @@
         (user_password,user_phone,user_name,user_status)
         VALUES (#{user.userPassword},#{user.userPhone},#{user.userName},#{user.userStatus});
     </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <select id="selCountByUserIds" resultType="int">
+        SELECT COUNT(1)
+        FROM user
+        WHERE 1=1
+        <include refid="allCondition"/>
+        AND id in
+        <foreach collection="userIds" open="(" close=")" separator="," item="item" index="index">
+            #{item}
+        </foreach>
+
+    </select>
+
+    <select id="selPageUserByUserIds" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM user
+        where  1=1
+        <include refid="allCondition"/>
+        AND id in
+        <foreach collection="userIds" open="(" close=")" separator="," item="item" index="index">
+            #{item}
+        </foreach>
+        ORDER BY create_time DESC
+        <include refid="page"/>
+    </select>
 
 
 </mapper>

@@ -3,9 +3,11 @@ package com.xgq.util;
 import com.xgq.dto.UserDto;
 import com.xgq.errorcode.UserErrorCode;
 import com.xgq.po.UserPo;
+import jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+import util.HttpContextUtils;
 import util.exception.BusinessRuntimeException;
 
 import java.util.regex.Pattern;
@@ -48,6 +50,11 @@ public class UserUtil {
                 BusinessRuntimeException.wrapBusiException(UserErrorCode.PHONE_ILLEGAL);
             }
         }
+    }
+
+    public static Long getUserId(){
+        String sign = HttpContextUtils.getHttpServletRequest().getHeader("sign");
+        return Long.valueOf(JwtUtils.parseJWT(sign));
     }
 
 }

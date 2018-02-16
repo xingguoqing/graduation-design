@@ -24,7 +24,12 @@ public class UserRoleServiceImpl implements IUserRoleService{
     }
 
     @Override
-    public List<UserRolePo> selByUserId(Long subUserId) {
-        return userRoleDao.selByUserId(subUserId);
+    public List<UserRolePo> selByUserId(Long userId) {
+        return userRoleDao.selByUserId(userId);
+    }
+
+    @Override
+    public List<UserRolePo> selUserRoleByRoleId(Long id) {
+        return userRoleDao.selUserRoleByRoleId(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.xgq.mapper;
 
 
+import com.xgq.dto.UserDto;
 import com.xgq.po.UserPo;
 import dto.PageDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,4 +34,14 @@ public interface IUserMapper {
 
     void updatePassword(@Param("password") String password, @Param("id") Long id);
 
+
+
+
+
+
+
+
+    int selCountByUserIds(@Param("userIds") List<Long> userIds, @Param("user") UserDto userDto);
+
+    List<UserPo> selPageUserByUserIds(@Param("userIds") List<Long> userIds, @Param("user") UserDto userDto, @Param("page") PageDto pageDto);
 }

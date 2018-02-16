@@ -1,0 +1,114 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IMenuMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.po.MenuPo">
+        <id column="id" property="id"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="is_leaf" property="isLeaf"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,menu_name,menu_url,is_leaf,parent_id
+    </sql>
+
+    <select id="selByMenuIds" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM menu
+        where id IN
+        <foreach collection="menuIds" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--<select id="selectCount" resultType="int" parameterType="Long">-->
+        <!--SELECT count(1)-->
+        <!--FROM addr-->
+        <!--where user_id = #{userId}-->
+    <!--</select>-->
+
+    <!--<select id="getAddrById" parameterType="Long" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM addr-->
+        <!--where id = #{addrId}-->
+    <!--</select>-->
+
+    <!--<update id="updateDefaultById" parameterType="Long">-->
+        <!--UPDATE addr-->
+        <!--SET is_default = "Y"-->
+        <!--where id = #{addrId}-->
+    <!--</update>-->
+
+    <!--<update id="cancleDefaultByUserId" parameterType="Long">-->
+        <!--UPDATE addr-->
+        <!--SET is_default = "N"-->
+        <!--where user_id = #{userId} and is_default="Y"-->
+    <!--</update>-->
+
+    <!--<delete id="delAddr" parameterType="Long">-->
+        <!--DELETE  FROM addr-->
+        <!--WHERE id = #{addrId}-->
+    <!--</delete>-->
+
+    <!--<update id="updateAddrById" parameterType="com.xgq.po.AddrPo">-->
+        <!--UPDATE addr-->
+        <!--SET country_id = #{addr.countryId},city_id = #{addr.cityId},addr=#{addr.addr}-->
+        <!--WHERE id = #{addr.id}-->
+    <!--</update>-->
+
+    <!--<insert id="addAddr" parameterType="com.xgq.po.AddrPo">-->
+        <!--INSERT INTO addr-->
+        <!--(user_id,country_id,city_id,addr)-->
+        <!--VALUES (#{addr.userId},#{addr.countryId},#{addr.cityId},#{addr.addr})-->
+    <!--</insert>-->
+    <!--<update id="updateStatusByUserIds">-->
+    <!--UPDATE user-->
+    <!--SET user_status = #{stauts}-->
+    <!--WHERE id-->
+    <!--in-->
+    <!--<foreach collection="userIds" index="index" item="item" separator="," open="(" close=")">-->
+    <!--#{item}-->
+    <!--</foreach>-->
+    <!--</update>-->
+
+    <!--<update id="updatPhoneById">-->
+    <!--UPDATE user-->
+    <!--SET user_phone = #{phone}-->
+    <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<update id="updatePassword">-->
+    <!--UPDATE user-->
+    <!--SET user_password = #{password}-->
+    <!--WHERE id =#{id}-->
+    <!--</update>-->
+
+    <!--<select id="getUserByUserId" resultMap="baseRequestMap">-->
+    <!--SELECT-->
+    <!--<include refid="baseColumns"/>-->
+    <!--FROM user-->
+    <!--WHERE id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="getUserByUserPhone" resultMap="baseRequestMap">-->
+    <!--SELECT-->
+    <!--<include refid="baseColumns"/>-->
+    <!--FROM user-->
+    <!--WHERE user_phone = #{userPhone}-->
+    <!--</select>-->
+
+
+    <!--<insert id="addUser" parameterType="com.xgq.po.UserPo" useGeneratedKeys="true" keyColumn="id" keyProperty="user.userId">-->
+    <!--INSERT INTO user-->
+    <!--(user_password,user_phone,user_name,user_status)-->
+    <!--VALUES (#{user.userPassword},#{user.userPhone},#{user.userName},#{user.userStatus});-->
+    <!--</insert>-->
+
+
+</mapper>

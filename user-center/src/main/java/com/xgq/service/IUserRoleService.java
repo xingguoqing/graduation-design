@@ -12,5 +12,7 @@ public interface IUserRoleService {
 
     Long addUserRole(UserRolePo userRolePo);
 
-    List<UserRolePo> selByUserId(Long subUserId);
+    List<UserRolePo> selByUserId(Long userId);
+
+    List<UserRolePo> selUserRoleByRoleId(Long code);
 }

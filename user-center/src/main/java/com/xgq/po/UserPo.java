@@ -3,8 +3,10 @@ package com.xgq.po;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
+
 
 @Component
 @Setter
@@ -20,6 +22,10 @@ public class UserPo {
     private String userName;
 
     private String userStatus;
+
+    private String createTime;
+
+    private String lastLoginTime;
 
     @Override
     public String toString(){

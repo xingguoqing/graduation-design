@@ -3,7 +3,6 @@ package com.xgq.controller;
 import com.xgq.dto.UserDto;
 import com.xgq.po.UserPo;
 import com.xgq.service.IUserService;
-import com.xgq.util.UserIdUtils;
 import com.xgq.util.UserUtil;
 import io.swagger.annotations.*;
 import jwt.JwtUtils;
@@ -17,6 +16,8 @@ import responsecode.ICommonResponse;
 import responsecode.response.CommonResponse;
 import util.exception.BusinessRuntimeException;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -42,11 +43,17 @@ public class UserController {
             @ApiImplicitParam(name = "password", paramType = "query", dataType = "String", value = "密码", required = true)
     })
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ICommonResponse login(HttpServletResponse response ,@RequestParam String userPhone, @RequestParam String password) {
+    public ICommonResponse login(HttpServletResponse response , @RequestParam String userPhone, @RequestParam String password) {
         try {
             UserUtil.vailUserPhone(userPhone);
             UserDto userDto = userService.login(userPhone, password);
-            response.setHeader("sign", JwtUtils.createJwt(userDto.getId()));
+            String jwt = JwtUtils.createJwt(userDto.getUserId());
+//            Cookie cookie = new Cookie("sign", jwt);
+//            cookie.setMaxAge(30 * 60);//30min有效
+//            response.addCookie(cookie);
+            response.setHeader("sign",jwt);
+//            response.setHeader("Access-Control-Allow-Origin","*");
+            response.setHeader("Access-Control-Expose-Headers","sign");
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, userDto);
         } catch (Exception e) {
             return BusinessRuntimeException.responseException(e, "登录失败");
@@ -78,7 +85,7 @@ public class UserController {
 
         try {
             LOGGER.info("【用户/维修员】更新用户手机号");
-            Long id = UserIdUtils.getUserId();
+            Long id = UserUtil.getUserId();
             UserUtil.vailUserPhone(phone);
             userService.updateUserPhone(phone, id);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
@@ -95,7 +102,7 @@ public class UserController {
 
         try {
             LOGGER.info("【用户】修改用户密码");
-            Long id = UserIdUtils.getUserId();
+            Long id = UserUtil.getUserId();
             userService.updatePassword(password, id);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {

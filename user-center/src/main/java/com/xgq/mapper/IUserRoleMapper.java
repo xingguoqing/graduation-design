@@ -16,5 +16,7 @@ public interface IUserRoleMapper {
 
     Long addUserRole(@Param("userRole") UserRolePo userRolePo);
 
-    List<UserRolePo> selByUserId(@Param("subUserId") Long subUserId);
+    List<UserRolePo> selByUserId(@Param("userId") Long userId);
+
+    List<UserRolePo> selUserRoleByRoleId(@Param("roleId") Long roleId);
 }

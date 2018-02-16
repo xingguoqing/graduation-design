@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class UserDto {
 
-    private Long id;
+    private Long userId;
 
     private String userPhone;
 

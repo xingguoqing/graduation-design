@@ -22,7 +22,11 @@ public class UserRoleDao {
         return userRoleMapper.addUserRole(userRolePo);
     }
 
-    public List<UserRolePo> selByUserId(Long subUserId) {
-        return userRoleMapper.selByUserId(subUserId);
+    public List<UserRolePo> selByUserId(Long userId) {
+        return userRoleMapper.selByUserId(userId);
+    }
+
+    public List<UserRolePo> selUserRoleByRoleId(Long id) {
+        return userRoleMapper.selUserRoleByRoleId(id);
     }
 }

@@ -35,8 +35,8 @@ public class AddrServiceImpl implements IAddrService{
         int count = addrDao.selectCount(userId);
         List<AddrPo> users = addrDao.selectPageList(userId, pageDto);
         PageResultDto pageResultDto = new PageResultDto();
-        pageResultDto.setCount(count);
-        pageResultDto.setDatas(users);
+        pageResultDto.setTotal(count);
+        pageResultDto.setRows(users);
         return pageResultDto;
     }
 

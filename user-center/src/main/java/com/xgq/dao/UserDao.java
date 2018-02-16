@@ -1,5 +1,6 @@
 package com.xgq.dao;
 
+import com.xgq.dto.UserDto;
 import com.xgq.mapper.IUserMapper;
 import com.xgq.po.UserPo;
 import dto.PageDto;
@@ -18,16 +19,16 @@ public class UserDao {
     @Autowired
     IUserMapper userMapper;
 
-    public List<UserPo> selectPageList(UserPo userPo, PageDto pageDto){
-        return userMapper.selectPageList(userPo,pageDto);
+    public List<UserPo> selectPageList(UserPo userPo, PageDto pageDto) {
+        return userMapper.selectPageList(userPo, pageDto);
     }
 
-    public int selectCount(UserPo userPo){
+    public int selectCount(UserPo userPo) {
         return userMapper.selectCount(userPo);
     }
 
     public void updateStatusByUserIds(List<Long> ids, String stauts) {
-        userMapper.updateStatusByUserIds(ids,stauts);
+        userMapper.updateStatusByUserIds(ids, stauts);
     }
 
     public UserPo getUserByUserId(Long id) {
@@ -43,10 +44,18 @@ public class UserDao {
     }
 
     public void updatPhoneById(String phone, Long id) {
-        userMapper.updatPhoneById(phone,id);
+        userMapper.updatPhoneById(phone, id);
     }
 
     public void updatePassword(String password, Long id) {
-        userMapper.updatePassword(password,id);
+        userMapper.updatePassword(password, id);
+    }
+
+    public int selCountByUserIds(List<Long> userIds, UserDto userDto) {
+        return userMapper.selCountByUserIds(userIds, userDto);
+    }
+
+    public List<UserPo> selPageUserByUserIds(List<Long> userIds, UserDto userDto, PageDto pageDto) {
+        return userMapper.selPageUserByUserIds(userIds, userDto, pageDto);
     }
 }

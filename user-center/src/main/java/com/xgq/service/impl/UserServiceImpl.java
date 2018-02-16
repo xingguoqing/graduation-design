@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.exception.BusinessRuntimeException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,11 +34,39 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserRoleService userRoleService;
+    @Autowired
+    private IUserService userService;
 
 
+
+    /**
+     * 分页查询普通用户
+     *
+     * @param userDto 用户查询条件实体
+     * @param pageDto 分页类（不分页的话传null就可以）
+     * @return
+     */
     @Override
     public PageResultDto selectPageUsers(UserDto userDto, PageDto pageDto) {
-        return null;
+        List<UserRolePo> userRolePos = userRoleService.selUserRoleByRoleId(RoleEnum.ORDINARY_USER.getCode());
+        List<Long> userIds = new ArrayList<Long>();
+        for (UserRolePo userRolePo : userRolePos) {
+            userIds.add(userRolePo.getUserId());
+        }
+        List<UserPo> userPos = selPageUserByUserIds(userIds,userDto,pageDto);
+        int count = selCountByUserIds(userIds,userDto);
+        PageResultDto  pageResultDto = new PageResultDto();
+        pageResultDto.setRows(userPos);
+        pageResultDto.setTotal(count);
+        return pageResultDto;
+    }
+
+    private int selCountByUserIds(List<Long> userIds,UserDto userDto) {
+        return userDao.selCountByUserIds(userIds,userDto);
+    }
+
+    public List<UserPo> selPageUserByUserIds(List<Long> userIds,UserDto userDto,PageDto pageDto){
+        return userDao.selPageUserByUserIds(userIds,userDto,pageDto);
     }
 
     @Override
@@ -61,10 +90,10 @@ public class UserServiceImpl implements IUserService {
         userPo.setUserStatus(StatusEnum.ENABLE.getCode());
         userDao.addUser(userPo);
 //        //添加用户角色
-//        UserRolePo userRolePo = new UserRolePo();
-//        userRolePo.setRoleId(roleEnum.getCode());
-//        userRolePo.setUserId(userPo.getUserId());
-//        userRoleService.addUserRole(userRolePo);
+        UserRolePo userRolePo = new UserRolePo();
+        userRolePo.setRoleId(RoleEnum.ORDINARY_USER.getCode());
+        userRolePo.setUserId(userPo.getUserId());
+        userRoleService.addUserRole(userRolePo);
     }
 
     @Override
@@ -130,7 +159,7 @@ public class UserServiceImpl implements IUserService {
             return null;
         }
         UserDto userDto = new UserDto();
-        userDto.setId(userPo.getUserId());
+        userDto.setUserId(userPo.getUserId());
         userDto.setUserStatus(userPo.getUserStatus());
         userDto.setUserName(userPo.getUserName());
         userDto.setUserPhone(userPo.getUserPhone());

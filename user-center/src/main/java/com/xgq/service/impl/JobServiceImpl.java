@@ -42,8 +42,8 @@ public class JobServiceImpl implements IJobService {
         int count = jobDao.selectCount(jobDto);
         List<JobDto> jobDtoList = jobDao.selectPageList(jobDto, pageDto);
         PageResultDto pageResultDto = new PageResultDto();
-        pageResultDto.setCount(count);
-        pageResultDto.setDatas(jobDtoList);
+        pageResultDto.setTotal(count);
+        pageResultDto.setRows(jobDtoList);
         return pageResultDto;
     }
 }
