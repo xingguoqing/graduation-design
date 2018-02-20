@@ -1,9 +1,11 @@
 package com.xgq.dao;
 
+import com.xgq.dto.AddrDto;
+import com.xgq.dto.PartDirectoryDto;
 import com.xgq.mapper.IAddrMapper;
 import com.xgq.po.AddrPo;
-import com.xgq.po.UserPo;
 import dto.PageDto;
+import dto.PageResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +25,7 @@ public class AddrDao {
         return addrMapper.selectCount(userId);
     }
 
-    public List<AddrPo> selectPageList(Long userId, PageDto pageDto) {
+    public List<AddrDto> selectPageList(Long userId, PageDto pageDto) {
         return addrMapper.selectPageList(userId,pageDto);
     }
 
@@ -49,5 +51,29 @@ public class AddrDao {
 
     public void addAddr(AddrPo addrPo) {
         addrMapper.addAddr(addrPo);
+    }
+
+    public AddrPo selAddrByid(Long id) {
+        return addrMapper.selAddrByid(id);
+    }
+
+    public String getCountryById(Long countryId) {
+        return addrMapper.getCountryById(countryId);
+    }
+
+    public String getCityById(Long cityId) {
+        return addrMapper.getCityById(cityId);
+    }
+
+    public List<PartDirectoryDto> selAddrCountry() {
+        return addrMapper.selAddrCountry();
+    }
+
+    public List<PartDirectoryDto> selAddrCity(Long countryId) {
+        return addrMapper.selAddrCity(countryId);
+    }
+
+    public List<AddrDto> selAddrs(Long userId) {
+        return addrMapper.selAddrs(userId);
     }
 }

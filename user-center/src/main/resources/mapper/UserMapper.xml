@@ -146,4 +146,13 @@
     </select>
 
 
+
+    <select id="selUserById" parameterType="Long" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM user
+        where id = #{id}
+    </select>
+
+
 </mapper>

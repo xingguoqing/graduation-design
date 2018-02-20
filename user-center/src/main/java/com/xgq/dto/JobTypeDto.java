@@ -1,4 +1,4 @@
-package com.xgq.po;
+package com.xgq.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,16 +6,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author xingguoqing
- * @date 2018/2/14 上午10:35
+ * @date 2018/2/20 下午7:40
  */
 @Component
 @Setter
 @Getter
-public class PartDirectoryPo {
+public class JobTypeDto {
 
     private Long id;
     private String name;
-//    private String code;
-    private String isLeaf;
-    private String parentId;
 }

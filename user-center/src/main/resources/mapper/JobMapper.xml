@@ -86,6 +86,75 @@
         <include refid="allCondition"/>
     </select>
 
+
+    <select id="selJobNameById" resultType="String" parameterType="Long">
+        SELECT job_name
+        FROM job_type
+        where id = #{id}
+    </select>
+
+
+
+    <select id="selJobById" resultMap="baseRequestMap" parameterType="Long">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM job
+        where id = #{id}
+    </select>
+
+    <select id="selSubJob" resultMap="baseRequestMap" parameterType="Long">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM job
+        where sub_user_id = #{subId}
+    </select>
+
+
+
+    <select id="selJobType" resultType="com.xgq.dto.JobTypeDto" >
+        SELECT id,job_name as name
+        FROM job_type
+    </select>
+
+
+    <update id="updateRepaireIdByJobId" parameterType="Long">
+        UPDATE job
+        SET repairer_id = #{repaireId},status=1
+        where id = #{jobId}
+    </update>
+
+    <update id="updateDesc">
+        UPDATE job
+        SET job_desc = #{desc}
+        where id = #{id}
+    </update>
+
+    <update id="addEval">
+        UPDATE job
+        SET evaluate = #{eval}
+        where id = #{id}
+    </update>
+
+
+    <update id="addReply">
+        UPDATE job
+        SET repairer_reply = #{eval}
+        where id = #{id}
+    </update>
+
+    <update id="over">
+        UPDATE job
+        SET status = 2
+        where id = #{id}
+    </update>
+
+    <insert id="addJob" parameterType="com.xgq.dto.JobDto">
+        INSERT INTO job
+        (sub_user_id,job_type,job_desc,add_id)
+        VALUES
+        (#{jobDto.subUserId},#{jobDto.jobType},#{jobDto.jobDesc},#{jobDto.addId})
+    </insert>
+
     <!--<update id="updateStatusByUserIds">-->
         <!--UPDATE user-->
         <!--SET user_status = #{stauts}-->

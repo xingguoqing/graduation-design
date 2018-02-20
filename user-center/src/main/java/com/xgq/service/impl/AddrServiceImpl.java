@@ -2,6 +2,8 @@ package com.xgq.service.impl;
 
 import com.xgq.dao.AddrDao;
 import com.xgq.dao.PartDirectoryDao;
+import com.xgq.dto.AddrDto;
+import com.xgq.dto.PartDirectoryDto;
 import com.xgq.errorcode.AddrErrorCode;
 import com.xgq.po.AddrPo;
 import com.xgq.po.PartDirectoryPo;
@@ -33,10 +35,10 @@ public class AddrServiceImpl implements IAddrService{
     @Override
     public PageResultDto selPageAddrs(Long userId, PageDto pageDto) {
         int count = addrDao.selectCount(userId);
-        List<AddrPo> users = addrDao.selectPageList(userId, pageDto);
+        List<AddrDto> addrDtos = addrDao.selectPageList(userId, pageDto);
         PageResultDto pageResultDto = new PageResultDto();
         pageResultDto.setTotal(count);
-        pageResultDto.setRows(users);
+        pageResultDto.setRows(addrDtos);
         return pageResultDto;
     }
 
@@ -75,7 +77,7 @@ public class AddrServiceImpl implements IAddrService{
         if(poCity == null){
             BusinessRuntimeException.wrapBusiException(AddrErrorCode.CITY_NOT_EXIST);
         }
-        if(!poCity.getParentCode().equals(poCountry.getCode())){
+        if(!poCity.getParentId().equals(poCountry.getId())){
             BusinessRuntimeException.wrapBusiException(AddrErrorCode.COUNTRY_CITY_NOT_MACH);
         }
         addrDao.updateAddrById(addrPo);
@@ -85,16 +87,46 @@ public class AddrServiceImpl implements IAddrService{
     @Override
     public void addAddr(AddrPo addrPo) {
         PartDirectoryPo poCountry = partDirectoryDao.getNameById(addrPo.getCountryId());
-        if(poCountry == null){
-            BusinessRuntimeException.wrapBusiException(AddrErrorCode.COUNTRY_NOT_EXIST);
-        }
-        PartDirectoryPo poCity = partDirectoryDao.getNameById(addrPo.getCityId());
-        if(poCity == null){
-            BusinessRuntimeException.wrapBusiException(AddrErrorCode.CITY_NOT_EXIST);
-        }
-        if(!poCity.getParentCode().equals(poCountry.getCode())){
-            BusinessRuntimeException.wrapBusiException(AddrErrorCode.COUNTRY_CITY_NOT_MACH);
-        }
+//        if(poCountry == null){
+//            BusinessRuntimeException.wrapBusiException(AddrErrorCode.COUNTRY_NOT_EXIST);
+//        }
+//        PartDirectoryPo poCity = partDirectoryDao.getNameById(addrPo.getCityId());
+//        if(poCity == null){
+//            BusinessRuntimeException.wrapBusiException(AddrErrorCode.CITY_NOT_EXIST);
+//        }
+////        if(!poCity.getParentId().equals(poCountry.getId())){
+////            BusinessRuntimeException.wrapBusiException(AddrErrorCode.COUNTRY_CITY_NOT_MACH);
+////        }
         addrDao.addAddr(addrPo);
+    }
+
+    @Override
+    public AddrPo selAddrByid(Long id) {
+        return addrDao.selAddrByid(id);
+    }
+
+    @Override
+    public String getCountryById(Long countryId) {
+        return addrDao.getCountryById(countryId);
+    }
+
+    @Override
+    public String getCityById(Long cityId) {
+        return addrDao.getCityById(cityId);
+    }
+
+    @Override
+    public List<PartDirectoryDto> selAddrCountry() {
+        return addrDao.selAddrCountry();
+    }
+
+    @Override
+    public List<PartDirectoryDto> selAddrCity(Long countryId) {
+        return addrDao.selAddrCity(countryId);
+    }
+
+    @Override
+    public List<AddrDto> selAddrs(Long userId) {
+        return addrDao.selAddrs(userId);
     }
 }

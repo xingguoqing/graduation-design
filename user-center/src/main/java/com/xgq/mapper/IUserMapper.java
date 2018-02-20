@@ -36,12 +36,9 @@ public interface IUserMapper {
 
 
 
-
-
-
-
-
     int selCountByUserIds(@Param("userIds") List<Long> userIds, @Param("user") UserDto userDto);
 
     List<UserPo> selPageUserByUserIds(@Param("userIds") List<Long> userIds, @Param("user") UserDto userDto, @Param("page") PageDto pageDto);
+
+    UserPo selUserById(@Param("id")Long id);
 }

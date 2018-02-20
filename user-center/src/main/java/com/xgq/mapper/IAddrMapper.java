@@ -1,8 +1,10 @@
 package com.xgq.mapper;
 
+import com.xgq.dto.AddrDto;
+import com.xgq.dto.PartDirectoryDto;
 import com.xgq.po.AddrPo;
-import com.xgq.po.UserPo;
 import dto.PageDto;
+import dto.PageResultDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +20,7 @@ public interface IAddrMapper {
 
     int selectCount(@Param("userId") Long userId);
 
-    List<AddrPo> selectPageList(@Param("userId") Long userId, @Param("page") PageDto pageDto);
+    List<AddrDto> selectPageList(@Param("userId") Long userId, @Param("page") PageDto pageDto);
 
     AddrPo getAddrById(@Param("addrId") Long addrId);
 
@@ -31,4 +33,16 @@ public interface IAddrMapper {
     void updateAddrById(@Param("addr") AddrPo addr);
 
     void addAddr(@Param("addr") AddrPo addrPo);
+
+    AddrPo selAddrByid(@Param("addrId")Long id);
+
+    String getCountryById(@Param("countryId") Long countryId);
+
+    String getCityById(@Param("cityId") Long cityId);
+
+    List<PartDirectoryDto> selAddrCountry();
+
+    List<PartDirectoryDto> selAddrCity(@Param("countryId") Long countryId);
+
+    List<AddrDto> selAddrs(@Param("userId") Long userId);
 }

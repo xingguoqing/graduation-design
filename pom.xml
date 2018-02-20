@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>second-hand-mall</module>
+    <!--<module>second-hand-mall</module>-->
     <module>user-center</module>
     <module>common</module>
       <module>gateway</module>

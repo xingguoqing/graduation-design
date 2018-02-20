@@ -1,6 +1,7 @@
 package com.xgq.service;
 
 
+import com.xgq.dto.JobDto;
 import com.xgq.dto.UserDto;
 import com.xgq.enums.RoleEnum;
 import com.xgq.po.UserPo;
@@ -17,11 +18,12 @@ public interface IUserService {
 
     /**
      * 分页查询用户
+     * @param type 用户类型
      * @param userDto 用户查询条件实体
      * @param pageDto 分页类（不分页的话传null就可以）
      * @return 分页结果
      */
-    PageResultDto selectPageUsers(UserDto userDto, PageDto pageDto);
+    PageResultDto selectPageUsers(Long type,UserDto userDto, PageDto pageDto);
 
     /**
      * 更改用户状态
@@ -41,7 +43,7 @@ public interface IUserService {
      * 添加用户
      * @param userDto
      */
-    void addUser(UserPo userDto);
+    void addUser(UserPo userDto,String type);
 
     /**
      * 根据用户手机号查询
@@ -68,5 +70,7 @@ public interface IUserService {
 
     void updateUserPhone(String phone, Long id);
 
-    void addRepaire(UserPo userPo);
+
+    UserPo selUserById(Long id);
+
 }

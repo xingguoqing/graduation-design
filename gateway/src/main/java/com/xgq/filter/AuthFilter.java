@@ -54,7 +54,8 @@ public class AuthFilter extends ZuulFilter{
         if (Strings.isNullOrEmpty(token)) {
             log.info("http header contains no token");
             String path = request.getRequestURI();
-            if(path.equals("/user-center/public/user/login")||path.equals("/user-center/public/user/addUser")){
+            if(path.equals("/user-center/public/user/login")||path.equals("/user-center/public/user/addUser/1")||path.equals("/user-center/public/user/addUser/3")){
+                System.out.println("放行");
                 return null;
             }else {
                 ctx.setSendZuulResponse(false);

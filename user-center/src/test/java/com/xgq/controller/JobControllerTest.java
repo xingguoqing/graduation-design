@@ -1,9 +1,7 @@
 package com.xgq.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xgq.dto.UserDto;
-import com.xgq.po.UserPo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

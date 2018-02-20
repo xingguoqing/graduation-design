@@ -7,8 +7,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>user-login</artifactId>
-    <packaging>war</packaging>
+    <artifactId>user-center</artifactId>
+    <packaging>jar</packaging>
     <name>user-login Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
@@ -63,6 +63,6 @@
 
 
     <build>
-        <finalName>user-login</finalName>
+        <finalName>user-center</finalName>
     </build>
 </project>

@@ -1,9 +1,16 @@
 package com.xgq.controller;
 
+import com.xgq.dto.JobDto;
 import com.xgq.dto.UserDto;
+import com.xgq.enums.RoleEnum;
+import com.xgq.errorcode.UserErrorCode;
 import com.xgq.po.UserPo;
+import com.xgq.po.UserRolePo;
+import com.xgq.service.IJobService;
 import com.xgq.service.IUserService;
 import com.xgq.util.UserUtil;
+import dto.PageDto;
+import dto.PageResultDto;
 import io.swagger.annotations.*;
 import jwt.JwtUtils;
 import org.slf4j.Logger;
@@ -15,10 +22,12 @@ import responsecode.enums.CommonRespCodeEnum;
 import responsecode.ICommonResponse;
 import responsecode.response.CommonResponse;
 import util.exception.BusinessRuntimeException;
+import util.valid.PageUtil;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 /**
@@ -36,6 +45,9 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IJobService jobService;
+
 
     @ApiOperation(value = "【用户】登录")
     @ApiImplicitParams({
@@ -47,6 +59,9 @@ public class UserController {
         try {
             UserUtil.vailUserPhone(userPhone);
             UserDto userDto = userService.login(userPhone, password);
+            if(userDto.getUserStatus().equals("N")){
+                BusinessRuntimeException.wrapBusiException(UserErrorCode.USER_NOT_ACTIVATION);
+            }
             String jwt = JwtUtils.createJwt(userDto.getUserId());
 //            Cookie cookie = new Cookie("sign", jwt);
 //            cookie.setMaxAge(30 * 60);//30min有效
@@ -62,14 +77,14 @@ public class UserController {
 
     @ApiOperation(value = "【用户】注册用户")
     @ApiImplicitParam(name = "userPo", paramType = "body", dataType = "UserPo", value = "用户信息", required = true)
-    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/addUser/{type}", method = RequestMethod.POST)
     @Transactional
-    public ICommonResponse addUser(@RequestBody UserPo userPo) {
+    public ICommonResponse addUser(@PathVariable("type") String type,@RequestBody UserPo userPo) {
 
         try {
             LOGGER.info("【用户】注册用户");
             UserUtil.vailUserParams(userPo);
-            userService.addUser(userPo);
+            userService.addUser(userPo,type);
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {
             LOGGER.error("注册用户失败:{}", e.getMessage());
@@ -110,6 +125,42 @@ public class UserController {
             return BusinessRuntimeException.responseException(e, "修改用户密码失败");
         }
     }
+
+    @ApiOperation(value = "【用户】查询用户")
+    @ApiImplicitParam(name = "password", paramType = "query", dataType = "String", value = "用户密码", required = true)
+    @RequestMapping(value = "/selUserById", method = RequestMethod.GET)
+    public ICommonResponse selUserById(HttpServletRequest request) {
+
+        try {
+            String jwt = request.getHeader("sign");
+            Long id = JwtUtils.parseJWT(jwt);
+            UserPo userPo = userService.selUserById(id);
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE,userPo);
+        } catch (Exception e) {
+            LOGGER.error("修改用户密码失败:{}", e.getMessage());
+            return BusinessRuntimeException.responseException(e, "修改用户密码失败");
+        }
+    }
+
+
+//    @ApiOperation(value = "【用户】查看提交的报修")
+////    @ApiImplicitParam(name = "password", paramType = "query", dataType = "String", value = "用户密码", required = true)
+//    @RequestMapping(value = "/selSubJob", method = RequestMethod.POST)
+//    public ICommonResponse selSubJob(HttpServletRequest request, @RequestParam(value = "page") int pageNum, @RequestParam(value = "rows") int pageSize) {
+//
+//        try {
+//            JobDto jobDto = new JobDto();
+//            PageUtil.validParams(pageNum, pageSize);
+//            PageDto pageDto = PageUtil.getPageDto(pageNum, pageSize);
+//            Long userId = JwtUtils.parseJWT(request.getHeader("sign"));
+//            jobDto.setSubUserId(userId);
+//            PageResultDto pageResultDto = jobService.selSubJob(userId, pageDto);
+//            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE,pageResultDto);
+//        } catch (Exception e) {
+//            LOGGER.error("修改用户密码失败:{}", e.getMessage());
+//            return BusinessRuntimeException.responseException(e, "修改用户密码失败");
+//        }
+//    }
 
 
 }

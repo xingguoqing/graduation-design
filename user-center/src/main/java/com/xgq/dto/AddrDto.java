@@ -1,4 +1,4 @@
-package com.xgq.po;
+package com.xgq.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 @Setter
 @Getter
-public class AddrPo {
+public class AddrDto {
 
     private Long id;
     private Long userId;
-    private Long countryId;
-    private Long cityId;
-    private Long partId;
+    private String countryName;
+    private String cityName;
+    private String partName;
     private String addr;
     private String isDefault;
 

@@ -7,13 +7,12 @@
     <resultMap id="baseRequestMap" type="com.xgq.po.PartDirectoryPo">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="code" property="code"/>
         <result column="is_leaf" property="isLeaf"/>
-        <result column="parent_code" property="parentCode"/>
+        <result column="parent_id" property="parentId"/>
     </resultMap>
 
     <sql id="baseColumns">
-        id,name,code,is_leaf,parent_code
+        id,name,is_leaf,parent_id
     </sql>
 
 

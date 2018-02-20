@@ -58,4 +58,8 @@ public class UserDao {
     public List<UserPo> selPageUserByUserIds(List<Long> userIds, UserDto userDto, PageDto pageDto) {
         return userMapper.selPageUserByUserIds(userIds, userDto, pageDto);
     }
+
+    public UserPo selUserById(Long id) {
+        return userMapper.selUserById(id);
+    }
 }
