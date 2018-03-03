@@ -47,7 +47,4 @@ public class JwtUtils {
         return Long.valueOf(claims.getId());
     }
 
-    public static void main(String[] args) {
-//        JwtUtils.
-    }
 }

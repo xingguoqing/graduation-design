@@ -8,7 +8,7 @@ import responsecode.ICommonResponse;
  * @author xingguoqing
  * @date 2018/2/2 下午2:51
  */
-@Getter
+
 public class CommonResponse implements ICommonResponse {
 
     public String code;
@@ -22,7 +22,19 @@ public class CommonResponse implements ICommonResponse {
         this.msg = commonCode.getMsg();
     }
 
-    public CommonResponse(ICommonCode commonCode,Object datas) {
+    public String getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public Object getDatas() {
+        return datas;
+    }
+
+    public CommonResponse(ICommonCode commonCode, Object datas) {
         this.code = commonCode.getCode();
         this.msg = commonCode.getMsg();
         this.datas = datas;

@@ -13,8 +13,6 @@ import responsecode.response.CommonResponse;
 /**
  * 业务运行时异常包装类
  */
-@Setter
-@Getter
 public class BusinessRuntimeException extends RuntimeException {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRuntimeException.class);
@@ -32,7 +30,19 @@ public class BusinessRuntimeException extends RuntimeException {
         throw new BusinessRuntimeException(errorCode);
     }
 
-//    public static ICommonResponse responseException(ICommonCode errorCode) {
+    public static Logger getLOGGER() {
+        return LOGGER;
+    }
+
+    public ICommonCode getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(ICommonCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    //    public static ICommonResponse responseException(ICommonCode errorCode) {
 //        Throwable cause = unmarsh(e);
 //        LOGGER.error(msg + ":" + cause.getMessage(), cause);
 //        if (cause instanceof BusinessRuntimeException) {

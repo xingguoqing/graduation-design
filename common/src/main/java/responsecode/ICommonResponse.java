@@ -5,5 +5,9 @@ package responsecode;
  */
 public interface ICommonResponse {
 
+    public String getCode();
+
+    public String getMsg();
+
 
 }
