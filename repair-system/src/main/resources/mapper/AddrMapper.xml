@@ -1,0 +1,149 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IAddrMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.po.AddrPo">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="country_id" property="countryId"/>
+        <result column="city_id" property="cityId"/>
+        <result column="part_id" property="partId"/>
+        <result column="addr" property="addr"/>
+        <result column="is_default" property="isDefault"/>
+    </resultMap>
+
+    <resultMap id="baseRequestMap1" type="com.xgq.dto.AddrDto">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="country_name" property="countryName"/>
+        <result column="city_name" property="cityName"/>
+        <result column="part_name" property="partName"/>
+        <result column="addr" property="addr"/>
+        <result column="is_default" property="isDefault"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,user_id,country_id,city_id,addr,is_default,part_id
+    </sql>
+
+
+    <sql id="page">
+        <if test="page !=null">
+            limit #{page.startNum},#{page.pageSize}
+        </if>
+    </sql>
+
+    <select id="selectPageList" resultMap="baseRequestMap1">
+        SELECT
+        addr.id,user_id,addr,is_default,a.name as country_name,b.name as city_name,c.name as part_name
+        FROM addr
+        INNER JOIN part_directory as a
+        on addr.country_id = a.id
+        INNER JOIN part_directory as b
+        on addr.city_id = b.id
+        INNER JOIN part_directory as c
+        on addr.part_id = c.id
+        where user_id = #{userId}
+        ORDER BY create_time DESC
+        <include refid="page"/>
+    </select>
+
+    <select id="selAddrs" resultMap="baseRequestMap1">
+        SELECT
+        addr.id,user_id,addr,is_default,a.name as country_name,b.name as city_name,c.name as part_name
+        FROM addr
+        INNER JOIN part_directory as a
+        on addr.country_id = a.id
+        INNER JOIN part_directory as b
+        on addr.city_id = b.id
+        INNER JOIN part_directory as c
+        on addr.part_id = c.id
+        where user_id = #{userId}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectCount" resultType="int" parameterType="Long">
+        SELECT count(1)
+        FROM addr
+        where user_id = #{userId}
+    </select>
+
+    <select id="getAddrById" parameterType="Long" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM addr
+        where id = #{addrId}
+    </select>
+
+    <update id="updateDefaultById" parameterType="Long">
+        UPDATE addr
+        SET is_default = "Y"
+        where id = #{addrId}
+    </update>
+
+    <update id="cancleDefaultByUserId" parameterType="Long">
+        UPDATE addr
+        SET is_default = "N"
+        where user_id = #{userId} and is_default="Y"
+    </update>
+
+    <delete id="delAddr" parameterType="Long">
+        DELETE  FROM addr
+        WHERE id = #{addrId}
+    </delete>
+
+    <update id="updateAddrById" parameterType="com.xgq.po.AddrPo">
+        UPDATE addr
+        SET country_id = #{addr.countryId},city_id = #{addr.cityId},addr=#{addr.addr}
+        WHERE id = #{addr.id}
+    </update>
+
+    <insert id="addAddr" parameterType="com.xgq.po.AddrPo">
+        INSERT INTO addr
+        (user_id,country_id,city_id,addr,part_id)
+        VALUES (#{addr.userId},#{addr.countryId},#{addr.cityId},#{addr.addr},#{addr.partId})
+    </insert>
+
+
+    <select id="selAddrByid" resultMap="baseRequestMap" parameterType="Long">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM addr
+        where id = #{addrId}
+    </select>
+
+    <select id="getCountryById" resultType="String" parameterType="Long">
+        SELECT name
+        FROM part_directory
+        where id = #{countryId}
+    </select>
+
+
+    <select id="getCityById" resultType="String" parameterType="Long">
+        SELECT name
+        FROM part_directory
+        where id = #{cityId}
+    </select>
+
+    <resultMap id="partDirectory" type="com.xgq.dto.PartDirectoryDto">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <select id="selAddrCountry" resultMap="partDirectory">
+        SELECT id,name
+        FROM part_directory
+        where parent_id = 0
+    </select>
+
+
+    <select id="selAddrCity"  resultMap="partDirectory" parameterType="Long">
+        SELECT id,name
+        FROM part_directory
+        where parent_id = #{countryId}
+    </select>
+
+
+</mapper>
