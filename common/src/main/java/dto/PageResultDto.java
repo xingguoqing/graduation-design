@@ -9,25 +9,11 @@ import org.springframework.stereotype.Component;
  * @date 2018/2/3 下午5:28
  */
 @Component
+@Getter
+@Setter
 public class PageResultDto {
 
-    private int total;
+    private Long total;
 
     private Object rows;
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public Object getRows() {
-        return rows;
-    }
-
-    public void setRows(Object rows) {
-        this.rows = rows;
-    }
 }

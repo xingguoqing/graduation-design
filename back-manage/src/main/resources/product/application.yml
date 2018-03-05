@@ -1,0 +1,21 @@
+server:
+    port: 8091
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+
+
+spring:
+    application:
+        name: back-manage
+    datasource:
+        url: jdbc:mysql://127.0.0.1:3306/cuicui?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+        username: test_user
+        password: test_user
+        driverClassName: com.mysql.jdbc.Driver
+
+mybatis:
+    mapperLocations: classpath:mapper/*.xml
+
+

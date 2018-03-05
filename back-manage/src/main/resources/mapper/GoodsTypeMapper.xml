@@ -1,0 +1,67 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IGoodsTypeMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.po.GoodsTypePo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,name
+    </sql>
+
+
+    <sql id="page">
+        <if test="page !=null">
+            limit #{page.startNum},#{page.pageSize}
+        </if>
+    </sql>
+
+    <sql id="keyword">
+        <if test="keyword != null and keyword != '' ">
+           AND name like concat('%',#{keyword},'%')
+        </if>
+    </sql>
+
+    <select id="selPageGoodsType" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM goods_type
+        WHERE 1=1
+        <include refid="keyword"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="selCount" parameterType="String" resultType="Long">
+        SELECT count(1)
+        from goods_type
+        WHERE 1=1
+        <include refid="keyword"/>
+    </select>
+
+
+    <select id="selGoodsType" parameterType="String" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        from goods_type
+        WHERE 1=1
+        <include refid="keyword"/>
+    </select>
+
+    <insert id="addGoodsType" parameterType="com.xgq.po.GoodsTypePo" useGeneratedKeys="true" keyProperty="goodsTypePo.id" keyColumn="id">
+      INSERT INTO goods_type
+      (name) VALUES (#{goodsTypePo.name});
+    </insert>
+
+    <select id="getByTypeName" parameterType="String" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM goods_type
+        WHERE name = #{typeName}
+    </select>
+
+
+</mapper>
