@@ -17,5 +17,15 @@ spring:
 
 #mybatis:
 #    mapperLocations: classpath:mapper/*.xml
+fdfs:
+    soTimeout: 1500
+    connectTimeout: 600
+    thumbImage:
+        width: 150
+        height: 150
+    trackerList[0]: 140.143.225.62:23585
+#上传文件大小限制
+#spring.http.multipart.maxFileSize=3Mb
+#spring.http.multipart.maxRequestSize=30Mb
 
 

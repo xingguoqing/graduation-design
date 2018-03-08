@@ -2,19 +2,21 @@ package com.xgq.controller;
 
 import java.io.*;
 
+import com.xgq.util.FastDFSClientWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import responsecode.ICommonResponse;
 import responsecode.enums.CommonRespCodeEnum;
 import responsecode.response.CommonResponse;
-import sun.misc.BASE64Encoder;
 import util.exception.BusinessRuntimeException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +37,9 @@ public class FileController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
+
+    @Autowired
+    private FastDFSClientWrapper fastDFSClientWrapper;
 
     /**
      * 暂时存放在工程目录，后续加上fastdfs
@@ -57,15 +62,17 @@ public class FileController {
             String fileName;
             for (int i = 0; i < files.size(); ++i) {
                 file = files.get(i);
-                if (!file.isEmpty()) {
-                    byte[] bytes = file.getBytes();
-                    fileName = System.currentTimeMillis() + file.getOriginalFilename();
-                    paths.add(fileName);
-                    stream = new BufferedOutputStream(new FileOutputStream(
-                            new File(fileName)));
-                    stream.write(bytes);
-                    stream.close();
-                }
+//                if (!file.isEmpty()) {
+//                    byte[] bytes = file.getBytes();
+//                    fileName = System.currentTimeMillis() + file.getOriginalFilename();
+//                    paths.add(fileName);
+//                    stream = new BufferedOutputStream(new FileOutputStream(
+//                            new File(fileName)));
+//                    stream.write(bytes);
+//                    stream.close();
+//                }
+                String path = fastDFSClientWrapper.uploadFile(file);
+                paths.add(path);
             }
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, paths);
         } catch (Exception e) {
@@ -78,9 +85,24 @@ public class FileController {
     @ApiResponse(message = "下载结果", code = 200)
     @ApiImplicitParam(name = "path", paramType = "body", dataType = "String", value = "文件路径", required = true)
     @RequestMapping(value = "/download", method = RequestMethod.POST)
-    public ICommonResponse downloadFiles(@RequestBody List<String> paths) {
+    public ICommonResponse downloadFiles(@RequestParam("path") String path) {
 
         try {
+//            String path="group1/M00/00/00/rBUAC1qfldiAdzHtAAE7NAKTjGU519.pdf";
+
+            //发邮件确认收款
+            InputStream fileInputStream = fastDFSClientWrapper.downLoadImg(path);
+            byte[] imgByteArray = IOUtils.toByteArray(fileInputStream);
+            // Base64解码
+            for (int i = 0; i < imgByteArray.length; ++i) {
+                if (imgByteArray[i] < 0) {// 调整异常数据
+                    imgByteArray[i] += 256;
+                }
+            }
+            OutputStream out = new FileOutputStream("payPic.pdf");
+            out.write(imgByteArray);
+            out.flush();
+            out.close();
 //            下载文件用
 //            File file = new File("C:/test.txt");
 //            resp.setHeader("content-type", "application/octet-stream");
@@ -110,22 +132,24 @@ public class FileController {
 //                    }
 //                }
 //            }
-            File file;
-            List<String> base64s = new ArrayList<String>();
-            BASE64Encoder base64Encoder = new BASE64Encoder();
-            for(String path:paths){
-                file = new File(path);
-                FileInputStream inputFile = new FileInputStream(file);
-                byte[] buffer = new byte[(int) file.length()];
-                inputFile.read(buffer);
-                inputFile.close();
-                base64s.add(base64Encoder.encode(buffer));
-            }
-            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE, base64s);
+////            File file;
+////            List<String> base64s = new ArrayList<String>();
+////            BASE64Encoder base64Encoder = new BASE64Encoder();
+////            for(String path:paths){
+////                file = new File(path);
+////                FileInputStream inputFile = new FileInputStream(file);
+////                byte[] buffer = new byte[(int) file.length()];
+////                inputFile.read(buffer);
+////                inputFile.close();
+////                base64s.add(base64Encoder.encode(buffer));
+//            }
+            return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         } catch (Exception e) {
             return BusinessRuntimeException.responseException(e, "文件下载失败");
         }
     }
+
+
 
 
 }
