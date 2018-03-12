@@ -1,0 +1,28 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IMenuMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.dto.MenuDto">
+        <id column="id" property="id"/>
+        <result column="menu_name" property="name"/>
+        <result column="menu_url" property="url"/>
+        <result column="is_leaf" property="isLeaf"/>
+        <result column="parent_id" property="pId"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,menu_name,menu_url,is_leaf,parent_id
+    </sql>
+
+    <select id="selAllMenu" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        from menu
+    </select>
+
+
+
+
+</mapper>

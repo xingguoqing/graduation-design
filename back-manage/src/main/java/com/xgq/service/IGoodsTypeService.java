@@ -18,4 +18,8 @@ public interface IGoodsTypeService {
     List<GoodsTypePo> selGoodsType(String keyword);
 
     GoodsTypePo addGoodsType(String typeName);
+
+    List<GoodsTypePo> selAllGoodsType();
+
+    GoodsTypePo selByTypeName(String typeName);
 }

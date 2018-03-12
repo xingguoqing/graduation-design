@@ -44,4 +44,5 @@ public class GoodsTypeDaoImpl implements IGoodsTypeDao {
     public GoodsTypePo getByTypeName(String typeName) {
         return goodsTypeMapper.getByTypeName(typeName);
     }
+
 }

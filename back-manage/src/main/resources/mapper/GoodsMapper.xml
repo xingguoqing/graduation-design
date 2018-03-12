@@ -1,0 +1,143 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgq.mapper.IGoodsMapper">
+
+
+    <resultMap id="baseRequestMap" type="com.xgq.po.GoodsPo">
+        <id column="id" property="id"/>
+        <result column="type_id" property="typeId"/>
+        <result column="good_desc" property="goodDesc"/>
+        <result column="good_key" property="goodKey"/>
+        <result column="cost_price" property="costPrice"/>
+        <result column="group_price" property="groupPrice"/>
+        <result column="single_price" property="singlePrice"/>
+        <result column="proxy_price" property="proxyPrice"/>
+        <result column="good_name" property="goodName"/>
+        <result column="pic1_path" property="pic1Path"/>
+        <result column="pic2_path" property="pic2Path"/>
+        <result column="pic3_path" property="pic3Path"/>
+        <result column="pic4_path" property="pic4Path"/>
+        <result column="pic5_path" property="pic5Path"/>
+        <result column="pic6_path" property="pic6Path"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id,type_id,good_desc,good_key,cost_price,group_price,single_price,proxy_price,good_name,
+        pic1_path,pic2_path,pic3_path,pic4_path,pic5_path,pic6_path,create_time,update_time
+    </sql>
+    <sql id="insertColumns">
+        type_id,good_desc,good_key,cost_price,group_price,single_price,proxy_price,good_name,
+        pic1_path,pic2_path,pic3_path,pic4_path,pic5_path,pic6_path
+    </sql>
+
+
+    <sql id="page">
+        <if test="page !=null">
+            limit #{page.startNum},#{page.pageSize}
+        </if>
+    </sql>
+
+    <sql id="keyword">
+        <!--<if test="keyword != null and keyword != '' ">-->
+           <!--AND name like concat('%',#{keyword},'%')-->
+        <!--</if>-->
+    </sql>
+
+    <insert id="addGood" parameterType="com.xgq.po.GoodsPo">
+        INSERT INTO
+        goods
+        (
+        <!--<include refid="insertColumns"/>-->
+        type_id,good_desc,good_key,cost_price,group_price,single_price,proxy_price,good_name,
+        pic1_path,pic2_path,pic3_path,pic4_path,pic5_path,pic6_path
+        )
+        VALUES
+        (
+        #{goodsPo.typeId},
+        #{goodsPo.goodDesc},
+        #{goodsPo.goodKey},
+        #{goodsPo.costPrice},
+        #{goodsPo.groupPrice},
+        #{goodsPo.singlePrice},
+        #{goodsPo.proxyPrice},
+        #{goodsPo.goodName},
+        #{goodsPo.pic1Path},
+        #{goodsPo.pic2Path},
+        #{goodsPo.pic3Path},
+        #{goodsPo.pic4Path},
+        #{goodsPo.pic5Path},
+        #{goodsPo.pic6Path}
+        )
+    </insert>
+
+    <select id="selByName" parameterType="String" resultMap="baseRequestMap">
+        SELECT
+        <include refid="baseColumns"/>
+        from goods
+        WHERE good_name = #{goodName}
+    </select>
+
+    <update id="updateGoodTypeByName">
+        UPDATE goods
+        SET type_id = #{id}
+        WHERE good_name = #{goodName}
+    </update>
+
+    <update id="updateGoodDescByName">
+        UPDATE goods
+        SET good_desc = #{goodDesc}
+        WHERE good_name = #{goodName}
+    </update>
+
+    <update id="updateGoodKeyByName">
+        UPDATE goods
+        SET good_key = #{goodKey}
+        WHERE good_name = #{goodName}
+    </update>
+
+    <update id="updateGoodPriceByName" parameterType="com.xgq.dto.GoodPriceDto">
+        UPDATE goods
+        SET
+        cost_price = #{goodPriceDto.costPrice},
+        group_price = #{goodPriceDto.groupPrice},
+        single_price = #{goodPriceDto.singlePrice},
+        proxy_price = #{goodPriceDto.proxyPrice},
+        WHERE good_name = #{goodPriceDto.goodName}
+    </update>
+
+    <update id="updatePic" parameterType="com.xgq.dto.GoodPicDto">
+        UPDATE goods
+        SET
+        pic1Path = #{goodPriceDto.pic1Path},
+        pic2Path = #{goodPriceDto.pic2Path},
+        pic3Path = #{goodPriceDto.pic3Path},
+        pic4Path = #{goodPriceDto.pic4Path},
+        pic5Path = #{goodPriceDto.pic5Path},
+        pic6Path = #{goodPriceDto.pic6Path},
+        WHERE good_name = #{goodPriceDto.goodName}
+    </update>
+
+
+    <!--<select id="selGoodsType" parameterType="String" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--from goods_type-->
+        <!--WHERE 1=1-->
+        <!--<include refid="keyword"/>-->
+    <!--</select>-->
+
+    <!--<insert id="addGoodsType" parameterType="com.xgq.po.GoodsTypePo" useGeneratedKeys="true" keyProperty="goodsTypePo.id" keyColumn="id">-->
+      <!--INSERT INTO goods_type-->
+      <!--(name) VALUES (#{goodsTypePo.name});-->
+    <!--</insert>-->
+
+    <!--<select id="getByTypeName" parameterType="String" resultMap="baseRequestMap">-->
+        <!--SELECT-->
+        <!--<include refid="baseColumns"/>-->
+        <!--FROM goods_type-->
+        <!--WHERE name = #{typeName}-->
+    <!--</select>-->
+
+
+</mapper>

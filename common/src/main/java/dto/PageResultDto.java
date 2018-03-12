@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Setter
 public class PageResultDto {
 
-    private Long total;
+    private long total;
 
     private Object rows;
 }

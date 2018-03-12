@@ -10,7 +10,8 @@ import responsecode.ICommonCode;
 @Getter
 public enum GoodsTypeErrorCode implements ICommonCode {
 
-    NAME_REPEAT("GT001","商品分类名称重复");
+    NAME_REPEAT("GT001","商品分类名称重复"),
+    GOOD_TYPE_NOT_EXIST("GT002","商品分类不存在");
 
     private String code;
     private String msg;

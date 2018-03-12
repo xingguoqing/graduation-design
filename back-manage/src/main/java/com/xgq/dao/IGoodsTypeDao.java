@@ -18,4 +18,5 @@ public interface IGoodsTypeDao {
     void addGoodsType(GoodsTypePo goodsTypePo);
 
     GoodsTypePo getByTypeName(String typeName);
+
 }

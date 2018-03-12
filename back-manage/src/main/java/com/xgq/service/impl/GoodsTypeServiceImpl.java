@@ -49,4 +49,14 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
         goodsTypeDao.addGoodsType(goodsTypePo);
         return goodsTypePo;
     }
+
+    @Override
+    public List<GoodsTypePo> selAllGoodsType() {
+        return goodsTypeDao.selGoodsType(null);
+    }
+
+    @Override
+    public GoodsTypePo selByTypeName(String typeName) {
+        return goodsTypeDao.getByTypeName(typeName);
+    }
 }

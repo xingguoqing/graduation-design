@@ -23,4 +23,6 @@ public interface IGoodsTypeMapper {
     void addGoodsType(@Param("goodsTypePo") GoodsTypePo goodsTypePo);
 
     GoodsTypePo getByTypeName(@Param("typeName") String typeName);
+
+//    GoodsTypePo selByGoodsName(@Param("typeName") String typeName);
 }
