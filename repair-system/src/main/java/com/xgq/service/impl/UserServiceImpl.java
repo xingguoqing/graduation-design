@@ -100,7 +100,7 @@ public class UserServiceImpl implements IUserService {
         userDao.addUser(userPo);
 //        //添加用户角色
         UserRolePo userRolePo = new UserRolePo();
-        if(type == "1")
+        if(type.equals("1"))
             userRolePo.setRoleId(RoleEnum.ORDINARY_USER.getCode());
         else
             userRolePo.setRoleId(RoleEnum.REPAIR_PERSONNEL.getCode());

@@ -59,4 +59,5 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
     public GoodsTypePo selByTypeName(String typeName) {
         return goodsTypeDao.getByTypeName(typeName);
     }
+
 }

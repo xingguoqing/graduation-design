@@ -14,6 +14,7 @@ import com.xgq.util.GoodsVailidUtils;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import responsecode.ICommonResponse;
 import responsecode.enums.CommonRespCodeEnum;
@@ -42,7 +43,7 @@ public class GoodsController {
 
 
     @RequestMapping(value = "/addGood", method = RequestMethod.POST)
-    public ICommonResponse addGood(@RequestBody GoodsDto goodsDto) {
+    public ICommonResponse addGood(@RequestBody @Validated GoodsDto goodsDto) {
 
         try {
             log.info("添加商品信息");

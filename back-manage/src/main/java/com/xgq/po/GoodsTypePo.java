@@ -15,4 +15,5 @@ public class GoodsTypePo {
     private Long id;
 
     private String name;
+
 }

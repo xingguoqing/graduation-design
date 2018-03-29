@@ -13,7 +13,8 @@
       <module>files-center</module>
     <module>repair-system</module>
       <module>back-manage</module>
-      <!--<module>user-center</module>-->
+    <module>park</module>
+    <!--<module>user-center</module>-->
     <!--<module>repaire-system</module>-->
   </modules>
   <name>graduation-design Maven Webapp</name>

@@ -1,5 +1,7 @@
 package com.xgq.controller;
 
+import com.xgq.errorcode.GoodsErrorCode;
+import com.xgq.errorcode.GoodsTypeErrorCode;
 import dto.PageDto;
 import dto.PageResultDto;
 import io.swagger.annotations.Api;
@@ -36,12 +38,7 @@ public class GoodsTypeController {
     @Autowired
     IGoodsTypeService goodsTypeService;
 
-    @ApiOperation(value = "分页查询商品分类")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", dataType = "int", paramType = "query", value = "分页页数", required = true),
-            @ApiImplicitParam(name = "pageSize", dataType = "int", paramType = "query", value = "分页大小", required = true),
-            @ApiImplicitParam(name = "keyword", dataType = "String", paramType = "query", value = "模糊匹配关键字", required = false)
-    })
+
     @RequestMapping(value = "/selPageGoodsType", method = RequestMethod.GET)
     public ICommonResponse selPageGoodsType(@RequestParam(value = "page") int pageNum, @RequestParam(value = "rows") int pageSize, @RequestParam(value = "keyword", required = false) String keyword) {
         try {
@@ -60,8 +57,6 @@ public class GoodsTypeController {
         }
     }
 
-    @ApiOperation(value = "查询商品分类")
-    @ApiImplicitParam(name = "keyword", dataType = "String", paramType = "query", value = "模糊匹配关键字", required = false)
     @RequestMapping(value = "/selGoodsType", method = RequestMethod.GET)
     public ICommonResponse selGoodsType(@RequestParam(value = "keyword", required = false) String keyword) {
         try {
@@ -74,13 +69,15 @@ public class GoodsTypeController {
         }
     }
 
-    @ApiOperation(value = "添加商品分类")
-    @ApiImplicitParam(name = "typeName",dataType = "String",paramType = "query",value = "分类名称",required = true)
     @RequestMapping(value = "/addGoodsType",method = RequestMethod.GET)
     public ICommonResponse addGoodsType(@RequestParam(value = "typeName") String typeName){
         try{
             log.info("开始添加商品分类,typeName:{}",typeName);
-            GoodsTypePo goodsTypePo = goodsTypeService.addGoodsType(typeName);
+            GoodsTypePo goodsTypePo = goodsTypeService.selByTypeName(typeName);
+            if(goodsTypePo !=null){
+                return new CommonResponse(GoodsTypeErrorCode.NAME_REPEAT);
+            }
+            goodsTypeService.addGoodsType(typeName);
             log.info("添加商品分类成功，商品分类id:{}",goodsTypePo.getId());
             return new CommonResponse(CommonRespCodeEnum.SUCCESS_CODE);
         }catch (Exception e){

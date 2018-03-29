@@ -22,4 +22,5 @@ public interface IGoodsTypeService {
     List<GoodsTypePo> selAllGoodsType();
 
     GoodsTypePo selByTypeName(String typeName);
+
 }

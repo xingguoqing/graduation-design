@@ -7,6 +7,11 @@ eureka:
 
 
 spring:
+    http:
+        encoding: UTF-8
+        enabled: true
+    messages:
+        encoding: UTF-8
     application:
         name: back-manage
     datasource:
@@ -18,4 +23,6 @@ spring:
 mybatis:
     mapperLocations: classpath:mapper/*.xml
 
+banner:
+    charset:   UTF-8
 
