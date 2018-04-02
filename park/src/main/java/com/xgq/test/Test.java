@@ -16,25 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/3/21 上午9:25
  */
 @Slf4j
-@RequestMapping("/foo")
+@RequestMapping("/data")
 @RestController
 public class Test {
 
     @Autowired
     private StringRedisTemplate template;
 
-    @RequestMapping("/foo")
+    @RequestMapping("/getData")
     @ResponseBody
-    public String foo(@RequestParam String as) {
+    public String foo() {
         ValueOperations<String, String> ops = template.opsForValue();
-        String key = "spring.boot.redis.test";
-        if(!StringUtils.isEmpty(as)){
-            log.info(as);
-            ops.set(key, as);
-            return as;
-        }else{
-            return "kong de ";
-        }
+        String key = "data";
+        return ops.get(key).toString();
+
+
+//        return null;
+
 
     }
 

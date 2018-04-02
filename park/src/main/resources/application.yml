@@ -19,3 +19,13 @@ spring:
         pool.min-idle: 0
         # 连接超时时间（毫秒)
         timeout: 0
+
+server:
+    port: 8089
+    address: localhost
+
+connection:
+    sign: H
+    ip: 192.168.4.1
+    port: 1025
+
